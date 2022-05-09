@@ -3,7 +3,7 @@ SRCS =	main.cpp
 
 OBJ = $(SRCS:.cpp=.o)
 
-CXXFLAGS = -Wall -Wextra -Werror -g -std=c++98
+CXXFLAGS =  -g -std=c++98
 CXX = c++
 rm = rm -rf
 
