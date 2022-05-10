@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:54:04 by tmartial          #+#    #+#             */
-/*   Updated: 2022/05/09 18:00:41 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/05/10 14:53:52 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 # include <memory>
 # include <vector>
 
+/* Order 
+	- Non memberfuctions
+	- Elemenet Access
+	- Capacity
+	- Modifiers
+*/
 namespace ft
 {
 	template<class T, class Allocator = std::allocator<T> >
@@ -43,6 +49,7 @@ namespace ft
 			pointer			_pcapacity;//no need maybe
 		
 		public:
+			/* ----- Constructors ------ */
 			//Constructor Default
 			explicit vector(const allocator_type& alloc = allocator_type()) 
 			: _alloc(alloc), _begin(nullptr), _size(0), _capacity(0) {}
@@ -63,9 +70,10 @@ namespace ft
 				return ;
 			}*/
 
-			//Constructor Copy /* Destruction doesnt work */
+			//Constructor Copy
 			vector (const vector& x) : _alloc(x._alloc), _begin(x._begin), _size(x._size), _capacity(x._capacity) 
 			{
+				this->_begin = this->_alloc.allocate(_capacity, 0);
 				for (size_type i = 0; i < this->_size; i++)
 					this->_alloc.construct(this->_begin + i, *(x._begin + i));
 			}
@@ -77,6 +85,21 @@ namespace ft
 					this->_alloc.destroy(this->_begin + i);
 				this->_alloc.deallocate(_begin, _capacity);
 			}
+
+			//Operator =
+			vector& operator=(const vector& x)
+			{
+				this->_alloc = x._alloc;
+				this->_begin = x._begin;
+				this->_size = x._size;
+				this->_capacity = x._capacity;
+				
+				this->_begin = this->_alloc.allocate(_capacity, 0);
+				for (size_type i = 0; i < this->_size; i++)
+					this->_alloc.construct(this->_begin + i, *(x._begin + i));
+				return (*this);
+			}
+			
 	};
 }
 
