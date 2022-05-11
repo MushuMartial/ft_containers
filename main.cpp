@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:53:43 by tmartial          #+#    #+#             */
-/*   Updated: 2022/05/10 14:49:10 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/05/11 12:40:49 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@
 
 int main()
 {
-	ft::vector<int> a;
-	ft::vector<int> b(5, 5);
+	const ft::vector<int> a(5, 6);
+	const ft::vector<int> b(5, 5);
 	
-	a = b;
+	if ( a==b )
+		std::cout << "hello";
 	return (0);
 }

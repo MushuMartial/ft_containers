@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:54:04 by tmartial          #+#    #+#             */
-/*   Updated: 2022/05/10 14:53:52 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/05/11 12:46:26 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ namespace ft
 					this->_alloc.construct(this->_begin + i, *(x._begin + i));
 			}
 			
+			/* ----- Destructor ----- */
 			//Destructor
 			~vector()
 			{
@@ -86,6 +87,7 @@ namespace ft
 				this->_alloc.deallocate(_begin, _capacity);
 			}
 
+			/* ----- Operator ----- */
 			//Operator =
 			vector& operator=(const vector& x)
 			{
@@ -99,8 +101,36 @@ namespace ft
 					this->_alloc.construct(this->_begin + i, *(x._begin + i));
 				return (*this);
 			}
+
+			/* ----- Relational operators ----- */
+			//Operator ==
+
+			/* template <class T, class Alloc>
+			bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
+			{
+				return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+			}*/
+			
+			
+			
+
 			
 	};
+	
+	/* ----- Relational operators ----- */
+	//Operator ==
+	/*template <class T, class Alloc>
+  	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+	{
+		if (lhs._size != rhs._size)
+			return false;
+		for (size_type i = 0; i < lhs._size; i++)
+		{
+			if (*(rhs._begin + i) != *(lhs._begin + i))
+				return false;
+		}
+		return true;
+	}*/
 }
 
 
