@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:54:04 by tmartial          #+#    #+#             */
-/*   Updated: 2022/05/11 12:46:26 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/05/11 18:02:25 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@
 # include <iostream>
 # include <memory>
 # include <vector>
+# include "random_iterator.hpp"
 
 /* Order 
 	- Non memberfuctions
 	- Elemenet Access
 	- Capacity
 	- Modifiers
+	iterators_traits
+	reverse_iterator
 */
 namespace ft
 {
@@ -36,6 +39,11 @@ namespace ft
 			typedef typename allocator_type::pointer         pointer;
 			typedef typename allocator_type::const_pointer   const_pointer;
 
+			//typedef typename ft::random_access_iterator<value_type>			iterator;
+			//typedef typename ft::random_access_iterator<const value_type>	const_iterator;
+			//typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
+			//typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
+			
 			typedef typename allocator_type::size_type       size_type;
 			typedef typename allocator_type::difference_type difference_type;
 			
@@ -78,7 +86,6 @@ namespace ft
 					this->_alloc.construct(this->_begin + i, *(x._begin + i));
 			}
 			
-			/* ----- Destructor ----- */
 			//Destructor
 			~vector()
 			{
@@ -87,7 +94,6 @@ namespace ft
 				this->_alloc.deallocate(_begin, _capacity);
 			}
 
-			/* ----- Operator ----- */
 			//Operator =
 			vector& operator=(const vector& x)
 			{
@@ -101,7 +107,20 @@ namespace ft
 					this->_alloc.construct(this->_begin + i, *(x._begin + i));
 				return (*this);
 			}
+			
+			/* ----- Iterators ----- */
+			//Begin
+			/*iterator begin()
+			{
+				return (this->_begin);
+			}*/
 
+			/* ----- Capacity ----- */
+			//Size
+			size_type size() const
+			{
+				return this->_size;
+			}
 			/* ----- Relational operators ----- */
 			//Operator ==
 
@@ -119,18 +138,18 @@ namespace ft
 	
 	/* ----- Relational operators ----- */
 	//Operator ==
-	/*template <class T, class Alloc>
+	template <class T, class Alloc>
   	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
 	{
-		if (lhs._size != rhs._size)
+		if (lhs.size() != rhs.size())
 			return false;
-		for (size_type i = 0; i < lhs._size; i++)
+		for (size_t i = 0; i < lhs.size(); i++)
 		{
-			if (*(rhs._begin + i) != *(lhs._begin + i))
+			if (*(rhs.begin() + i) != *(lhs.begin() + i))
 				return false;
 		}
 		return true;
-	}*/
+	}
 }
 
 

@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   random_iterator.hpp                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/05 15:53:43 by tmartial          #+#    #+#             */
-/*   Updated: 2022/05/11 18:01:26 by tmartial         ###   ########.fr       */
+/*   Created: 2022/05/11 18:01:09 by tmartial          #+#    #+#             */
+/*   Updated: 2022/05/11 18:07:10 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include <memory>
-#include <vector>
-#include "vector.hpp"
-#include "random_iterator.hpp"
+#ifndef RANDOM_ITERATOR_HPP
+# define RANDOM_ITERATOR_HPP
 
-int main()
+#include "iterator_traits.hpp"
+
+/*namespace ft
 {
-	const ft::vector<int> a(5, 6);
-	const ft::vector<int> b(5, 5);
-	
-	//if (a == b)
-		//std::cout << "hello";
-	return (0);
-}
+	template <typename T>
+	class random_access_iterator : public ft::iterator<ft::random_access_iterator_tag, T>*/
+
+#endif
