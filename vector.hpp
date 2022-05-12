@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:54:04 by tmartial          #+#    #+#             */
-/*   Updated: 2022/05/11 18:02:25 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/05/12 15:29:23 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,11 @@
 # include <iostream>
 # include <memory>
 # include <vector>
+# include <iterator>
 # include "random_iterator.hpp"
 
-/* Order 
+/* Order
+	- Constructors
 	- Non memberfuctions
 	- Elemenet Access
 	- Capacity
@@ -26,6 +28,14 @@
 	iterators_traits
 	reverse_iterator
 */
+
+/* ----- Doesnt work ----- */
+/* 
+	- Construct range
+	- Swap
+	
+*/
+
 namespace ft
 {
 	template<class T, class Allocator = std::allocator<T> >
@@ -38,9 +48,9 @@ namespace ft
     		typedef typename allocator_type::const_reference const_reference;
 			typedef typename allocator_type::pointer         pointer;
 			typedef typename allocator_type::const_pointer   const_pointer;
-
-			//typedef typename ft::random_access_iterator<value_type>			iterator;
-			//typedef typename ft::random_access_iterator<const value_type>	const_iterator;
+			typedef T*										iterator;//temporaire
+			typedef const T*								const_iterator;//temporaire
+			
 			//typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
 			//typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 			
@@ -71,15 +81,19 @@ namespace ft
 					this->_alloc.construct(this->_begin + i, val);
 			}
 
-			//Constructor Range
+			//Constructor Range /* ----- Doesnt work ----- */
 			/*template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
+			: _alloc(alloc), _begin(nullptr), _size(std::distance(first, last)), _capacity(std::distance(first, last) * 2) 
 			{
-				return ;
+				this->_begin = this->_alloc.allocate(_capacity, 0);
+				for (size_type i = 0; i < this->_size; i++)
+					this->_alloc.construct(this->_begin + i, *(first) + i);
 			}*/
 
 			//Constructor Copy
-			vector (const vector& x) : _alloc(x._alloc), _begin(x._begin), _size(x._size), _capacity(x._capacity) 
+			vector (const vector& x)
+			: _alloc(x._alloc), _begin(x._begin), _size(x._size), _capacity(x._capacity) 
 			{
 				this->_begin = this->_alloc.allocate(_capacity, 0);
 				for (size_type i = 0; i < this->_size; i++)
@@ -110,10 +124,15 @@ namespace ft
 			
 			/* ----- Iterators ----- */
 			//Begin
-			/*iterator begin()
+			iterator begin()
 			{
 				return (this->_begin);
-			}*/
+			}
+
+			const_iterator begin() const
+			{
+				return (this->_begin);
+			}
 
 			/* ----- Capacity ----- */
 			//Size
@@ -121,36 +140,139 @@ namespace ft
 			{
 				return this->_size;
 			}
-			/* ----- Relational operators ----- */
-			//Operator ==
 
-			/* template <class T, class Alloc>
-			bool operator==(const vector<T, Alloc>& lhs, const vector<T, Alloc>& rhs)
-			{
-				return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
-			}*/
-			
-			
-			
+			/* ----- Element Access ----- */
 
+			/* ----- Modifiers ----- */
 			
 	};
 	
 	/* ----- Relational operators ----- */
-	//Operator ==
 	template <class T, class Alloc>
-  	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
-	{
-		if (lhs.size() != rhs.size())
-			return false;
-		for (size_t i = 0; i < lhs.size(); i++)
-		{
-			if (*(rhs.begin() + i) != *(lhs.begin() + i))
-				return false;
-		}
-		return true;
-	}
+	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+
+	template <class T, class Alloc>
+	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+
+	template <class T, class Alloc>
+	bool operator< (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+
+	template <class T, class Alloc>
+	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+
+	template <class T, class Alloc>
+	bool operator> (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+
+	template <class T, class Alloc>
+	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
+
+	//Swap
+	template <class T, class Alloc>
+	void swap(vector<T,Alloc>& x, vector<T,Alloc>& y);
 }
 
+/* ----- Relational operators ----- */
+//Operator ==
+template <class T, class Alloc>
+bool ft::operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{
+	if (lhs.size() != rhs.size())
+		return false;
+	for (size_t i = 0; i < lhs.size(); i++)
+	{
+		if (*rhs.begin() + i != *lhs.begin() + i)
+			return false;
+	}
+	return true;
+}
+
+//Operator !=
+template <class T, class Alloc>
+bool ft::operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{
+	if (lhs.size() != rhs.size())
+		return true;
+	for (size_t i = 0; i < lhs.size(); i++)
+	{
+		if (*rhs.begin() + i != *lhs.begin() + i)
+			return true;
+	}
+	return false;
+}
+
+//Operator <
+template <class T, class Alloc>
+bool ft::operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{
+	size_t i = 0;
+		
+	while (i < lhs.size())
+	{
+		if ( i == rhs.size() || (*rhs.begin() + i < *lhs.begin() + i) )
+			return false;
+		else if (*lhs.begin() + i < *rhs.begin() + i)
+			return true;
+		i++;
+	}
+	return (i != rhs.size());
+}
+
+//Operator <=
+template <class T, class Alloc>
+bool ft::operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{
+	size_t i = 0;
+		
+	while (i < lhs.size())
+	{
+		if ( i == rhs.size() || (*rhs.begin() + i <= *lhs.begin() + i) )
+			return false;
+		else if (*lhs.begin() + i <= *rhs.begin() + i)
+			return true;
+		i++;
+	}
+	return (i != rhs.size());
+}
+
+//Operator >
+template <class T, class Alloc>
+bool ft::operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{
+	size_t i = 0;
+		
+	while (i < lhs.size())
+	{
+		if ( i == rhs.size() || (*rhs.begin() + i > *lhs.begin() + i) )
+			return false;
+		else if (*lhs.begin() + i > *rhs.begin() + i)
+			return true;
+		i++;
+	}
+	return (i != rhs.size());
+}
+
+//Operator >=
+template <class T, class Alloc>
+bool ft::operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
+{
+	size_t i = 0;
+		
+	while (i < lhs.size())
+	{
+		if ( i == rhs.size() || (*rhs.begin() + i >= *lhs.begin() + i) )
+			return false;
+		else if (*lhs.begin() + i >= *rhs.begin() + i)
+			return true;
+		i++;
+	}
+	return (i != rhs.size());
+}
+
+/* ----- Swap ----- */ /* ---- Doesnt Work ---- */
+/*template <class T, class Alloc>
+void ft::swap(vector<T,Alloc>& x, vector<T,Alloc>& y)
+{
+	x.swap(y);
+}*/
 
 #endif
