@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:54:04 by tmartial          #+#    #+#             */
-/*   Updated: 2022/05/12 15:29:23 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:31:05 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <memory>
 # include <vector>
 # include <iterator>
+# include "type_traits.hpp"
 # include "random_iterator.hpp"
 
 /* Order
@@ -67,10 +68,20 @@ namespace ft
 			pointer			_pcapacity;//no need maybe
 		
 		public:
+			/* ----- Utils ------ */
+			void reallocate(size_type capacity)
+			{
+				
+			}
+
+			
 			/* ----- Constructors ------ */
 			//Constructor Default
 			explicit vector(const allocator_type& alloc = allocator_type()) 
-			: _alloc(alloc), _begin(nullptr), _size(0), _capacity(0) {}
+			: _alloc(alloc), _begin(nullptr), _size(0), _capacity(0) 
+			{
+				
+			}
 			
 			//Constructor Fill
 			explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
@@ -82,14 +93,15 @@ namespace ft
 			}
 
 			//Constructor Range /* ----- Doesnt work ----- */
-			/*template <class InputIterator>
-			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type())
+			template <class InputIterator>
+			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = NULL)
 			: _alloc(alloc), _begin(nullptr), _size(std::distance(first, last)), _capacity(std::distance(first, last) * 2) 
 			{
 				this->_begin = this->_alloc.allocate(_capacity, 0);
 				for (size_type i = 0; i < this->_size; i++)
-					this->_alloc.construct(this->_begin + i, *(first) + i);
-			}*/
+					this->_alloc.construct(this->_begin + i, *first++);
+			}
 
 			//Constructor Copy
 			vector (const vector& x)
@@ -134,6 +146,17 @@ namespace ft
 				return (this->_begin);
 			}
 
+			//End
+			iterator end()
+			{
+				return (this->_begin + this->_size - 1);
+			}
+
+			const_iterator end() const
+			{
+				return (this->_begin + this->_size - 1);
+			}
+			
 			/* ----- Capacity ----- */
 			//Size
 			size_type size() const
@@ -141,9 +164,115 @@ namespace ft
 				return this->_size;
 			}
 
-			/* ----- Element Access ----- */
+			//Max_size
+			size_type max_size() const
+			{
+				return this->_capacity;
+			}
 
+			//Resize /* --- Realocate --- */
+			void resize (size_type n, value_type val = value_type())
+			{
+				if (n < this->_size)
+				{
+					for (size_type i = n; i < this->_size; i++)
+						this->_alloc.destroy(this->_begin + i);
+					this->_size = n + 1;
+				}
+				else if (n > this->_size && n < this->_capacity)
+				{
+					for (size_type i = this->_size; i < n; i++)
+						*(this->_begin + i) = val;
+				}
+				/* else realloc*/
+			}
+
+			//Capacity
+			size_type capacity() const
+			{
+				return this->_capacity;
+			}
+			
+			//Empty
+			bool empty() const
+			{
+				return (this->_size == 0 ? true : false);
+			}
+
+			//Reserve /* --- Realocate --- */
+			void reserve (size_type n)
+			{
+				if (this->_capacity < n)
+				{
+					/* Realloc */
+				}
+			}
+			
+			
+			/* ----- Element Access ----- */
+			//Operator [] //Execption
+			reference operator[] (size_type n)
+			{
+				return *(this->_begin + n);
+			}
+
+			const_reference operator[] (size_type n) const
+			{
+				return *(this->_begin + n);
+			}
+			
+			//At
+			reference at (size_type n)
+			{
+				return *(this->_begin + n);
+			}
+
+			const_reference at (size_type n) const
+			{
+				return *(this->_begin + n);
+			}
+
+			//Front
+			reference front()
+			{
+				return *(this->_begin);
+			}
+			
+			const_reference front() const
+			{
+				return *(this->_begin);
+			}
+
+			//Back
+			reference back()
+			{
+				return *(this->_begin + this->_size - 1);
+			}
+
+			const_reference back() const
+			{
+				return *(this->_begin + this->_size - 1);
+			}
+			
 			/* ----- Modifiers ----- */
+			//Assign
+			template <class InputIterator>
+ 			void assign (InputIterator first, InputIterator last,
+			typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = NULL)
+			{
+				
+			}
+			
+			void assign (size_type n, const value_type& val)
+			{
+				
+			}
+
+			//Push_back
+			void push_back (const value_type& val)
+			{
+				
+			}
 			
 	};
 	
