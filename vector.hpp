@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:54:04 by tmartial          #+#    #+#             */
-/*   Updated: 2022/05/13 16:31:05 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/05/17 15:47:37 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,9 @@ namespace ft
 		
 		public:
 			/* ----- Utils ------ */
-			void reallocate(size_type capacity)
+			void reallocate(size_type size)
 			{
-				
+				pointer tmp = this->_alloc.allocate(size * 2);
 			}
 
 			
