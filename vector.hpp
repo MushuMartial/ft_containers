@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:54:04 by tmartial          #+#    #+#             */
-/*   Updated: 2022/05/17 15:47:37 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/05/18 16:42:56 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # include <vector>
 # include <iterator>
 # include "type_traits.hpp"
-# include "random_iterator.hpp"
 
 /* Order
 	- Constructors
@@ -68,14 +67,40 @@ namespace ft
 			pointer			_pcapacity;//no need maybe
 		
 		public:
-			/* ----- Utils ------ */
-			void reallocate(size_type size)
+			/* ---------------------------------------------------- */
+			/*                                                      */
+			/*                     UTILS                            */
+			/*                                                      */
+			/* ---------------------------------------------------- */
+			pointer reallocate(size_type new_size, size_type cpy_until)
 			{
-				pointer tmp = this->_alloc.allocate(size * 2);
+				pointer tmp = this->_alloc.allocate(new_size * 2);
+				for (size_type i = 0; i < cpy_until; i++)
+					this->_alloc.construct(tmp + i, *(this->_begin + i));
+				return tmp;
 			}
 
+			void allocation(size_type size, const value_type& val)
+			{
+				this->_begin = this->_alloc.allocate(size * 2);
+				for (size_type i = 0; i < size; i++)
+					this->_alloc.construct(this->_begin + i, val);
+				this->_size = size;
+				this->_capacity = size * 2;
+			}
+
+			void deallocation()
+			{
+				for (size_type i = 0; i < this->_size; i++)
+					this->_alloc.destroy(this->_begin + i);
+				this->_alloc.deallocate(_begin, _capacity);
+			}
 			
-			/* ----- Constructors ------ */
+			/* ---------------------------------------------------- */
+			/*                                                      */
+			/*                     CONSTRUCTORS                     */
+			/*                                                      */
+			/* ---------------------------------------------------- */
 			//Constructor Default
 			explicit vector(const allocator_type& alloc = allocator_type()) 
 			: _alloc(alloc), _begin(nullptr), _size(0), _capacity(0) 
@@ -92,7 +117,7 @@ namespace ft
 					this->_alloc.construct(this->_begin + i, val);
 			}
 
-			//Constructor Range /* ----- Doesnt work ----- */
+			//Constructor Range
 			template <class InputIterator>
 			vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = NULL)
@@ -105,7 +130,7 @@ namespace ft
 
 			//Constructor Copy
 			vector (const vector& x)
-			: _alloc(x._alloc), _begin(x._begin), _size(x._size), _capacity(x._capacity) 
+			: _alloc(x._alloc), _begin(nullptr), _size(x._size), _capacity(x._capacity) 
 			{
 				this->_begin = this->_alloc.allocate(_capacity, 0);
 				for (size_type i = 0; i < this->_size; i++)
@@ -134,7 +159,11 @@ namespace ft
 				return (*this);
 			}
 			
-			/* ----- Iterators ----- */
+			/* ---------------------------------------------------- */
+			/*                                                      */
+			/*                     ITERATORS                        */
+			/*                                                      */
+			/* ---------------------------------------------------- */
 			//Begin
 			iterator begin()
 			{
@@ -149,15 +178,19 @@ namespace ft
 			//End
 			iterator end()
 			{
-				return (this->_begin + this->_size - 1);
+				return (this->_begin + this->_size);
 			}
 
 			const_iterator end() const
 			{
-				return (this->_begin + this->_size - 1);
+				return (this->_begin + this->_size);
 			}
 			
-			/* ----- Capacity ----- */
+			/* ---------------------------------------------------- */
+			/*                                                      */
+			/*                       SIZE                           */
+			/*                                                      */
+			/* ---------------------------------------------------- */
 			//Size
 			size_type size() const
 			{
@@ -167,10 +200,10 @@ namespace ft
 			//Max_size
 			size_type max_size() const
 			{
-				return this->_capacity;
+				return this->_alloc.max_size();
 			}
 
-			//Resize /* --- Realocate --- */
+			//Resize 
 			void resize (size_type n, value_type val = value_type())
 			{
 				if (n < this->_size)
@@ -179,12 +212,22 @@ namespace ft
 						this->_alloc.destroy(this->_begin + i);
 					this->_size = n + 1;
 				}
-				else if (n > this->_size && n < this->_capacity)
+				else if (n > this->_size && n <= this->_capacity)
 				{
 					for (size_type i = this->_size; i < n; i++)
 						*(this->_begin + i) = val;
+					
 				}
-				/* else realloc*/
+				else if (n > this->_size && n > this->_capacity)
+				{
+					pointer tmp = reallocate(n, this->_size);
+					deallocation();
+					this->_begin = tmp;
+					for (size_type i = this->_size; i < n; i++)
+						*(this->_begin + i) = val;
+					this->_size = n;
+					this->_capacity = n * 2;
+				}
 			}
 
 			//Capacity
@@ -199,17 +242,25 @@ namespace ft
 				return (this->_size == 0 ? true : false);
 			}
 
-			//Reserve /* --- Realocate --- */
+			//Reserve 
 			void reserve (size_type n)
 			{
 				if (this->_capacity < n)
 				{
-					/* Realloc */
+					pointer tmp = reallocate(n, this->_size);
+					deallocation();
+					this->_begin = tmp;
+					this->_size = n;
+					this->_capacity = n * 2;
 				}
 			}
 			
 			
-			/* ----- Element Access ----- */
+			/* ---------------------------------------------------- */
+			/*                                                      */
+			/*                   ELEMENT ACCESS                     */
+			/*                                                      */
+			/* ---------------------------------------------------- */
 			//Operator [] //Execption
 			reference operator[] (size_type n)
 			{
@@ -254,29 +305,79 @@ namespace ft
 				return *(this->_begin + this->_size - 1);
 			}
 			
-			/* ----- Modifiers ----- */
+			/* ---------------------------------------------------- */
+			/*                                                      */
+			/*                      MODIFIERS                       */
+			/*                                                      */
+			/* ---------------------------------------------------- */
 			//Assign
 			template <class InputIterator>
  			void assign (InputIterator first, InputIterator last,
 			typename ft::enable_if<!ft::is_integral<InputIterator>::value>::type* = NULL)
 			{
-				
+				deallocation();
+				this->_size = std::distance(first, last);
+				this->_capacity = this->_size * 2;
+				this->_begin = this->_alloc.allocate(this->_capacity);
+				for (size_type i = 0; i < this->_size; i++)
+					this->_alloc.construct(this->_begin + i, *first++);
 			}
 			
 			void assign (size_type n, const value_type& val)
 			{
-				
+				deallocation();
+				allocation(n, val);
 			}
 
 			//Push_back
 			void push_back (const value_type& val)
 			{
-				
+				if (this->_size < this->_capacity)
+				{
+					this->_alloc.construct(this->_begin + this->_size, val);
+				}
+				else
+				{
+					resize(this->_size + 1, val);
+				}
+				this->_size += 1;
 			}
 			
+			//Pop_back /* ----- Doesnt work ----- */
+			void pop_back()
+			{
+				if (this->_size != 0)
+					this->_alloc.destroy(this->_begin + (this->_size - 1));
+				this->_size -= 1;
+			}
+
+			//Insert
+			iterator insert (iterator position, const value_type& val);
+			void insert (iterator position, size_type n, const value_type& val);
+			template <class InputIterator>
+    		void insert (iterator position, InputIterator first, InputIterator last);
+
+			//Erase
+			iterator erase (iterator position);
+			iterator erase (iterator first, iterator last);
+
+			//Swap
+			void swap (vector& x);
+
+			//Clear
+			void clear()
+			{
+				for (size_type i = 0; i < this->_size; i++)
+					this->_alloc.destroy(this->_begin + i);
+				this->_size = 0;
+			}
 	};
 	
-	/* ----- Relational operators ----- */
+	/* ---------------------------------------------------- */
+	/*                                                      */
+	/*                     OPERATORS                        */
+	/*                                                      */
+	/*  --------------------------------------------------- */
 	template <class T, class Alloc>
 	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs);
 
@@ -297,10 +398,14 @@ namespace ft
 
 	//Swap
 	template <class T, class Alloc>
-	void swap(vector<T,Alloc>& x, vector<T,Alloc>& y);
+	void swap(vector<T,Alloc>& x, vector<T,Alloc>& y);  
 }
 
-/* ----- Relational operators ----- */
+/* ---------------------------------------------------- */
+/*                                                      */
+/*                     OPERATORS                        */
+/*                                                      */
+/* ---------------------------------------------------- */
 //Operator ==
 template <class T, class Alloc>
 bool ft::operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs)
