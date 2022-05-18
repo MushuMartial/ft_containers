@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:53:43 by tmartial          #+#    #+#             */
-/*   Updated: 2022/05/13 15:20:21 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/05/18 13:42:08 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,16 @@ int main()
 {
 	ft::vector<int> foo(10, 100);
 	//ft::vector<int> bar;
-	std::vector<int> bar(10, 90);
+	ft::vector<int> bar(2, 90);
 
-	std::vector<int>::iterator i;
-	std::vector<int>::iterator j;
-	i = bar.begin();
-	j = bar.begin() + 2;
+	bar.push_back(12);
+	bar.push_back(13);
+	bar.push_back(14);
+	for (size_t i = 0; i < 5; i++)
+	{
+		std::cout << "bar = " << bar[i] << std::endl;
+	}
+	
 
 	
 	
