@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:54:04 by tmartial          #+#    #+#             */
-/*   Updated: 2022/05/18 16:42:56 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/06/22 16:41:59 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <vector>
 # include <iterator>
 # include "type_traits.hpp"
+# include "reverse_iterator.hpp"
 
 /* Order
 	- Constructors
@@ -50,10 +51,8 @@ namespace ft
 			typedef typename allocator_type::const_pointer   const_pointer;
 			typedef T*										iterator;//temporaire
 			typedef const T*								const_iterator;//temporaire
-			
-			//typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
-			//typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
-			
+			typedef typename ft::reverse_iterator<iterator>					reverse_iterator;
+			typedef typename ft::reverse_iterator<const_iterator>			const_reverse_iterator;
 			typedef typename allocator_type::size_type       size_type;
 			typedef typename allocator_type::difference_type difference_type;
 			
@@ -185,6 +184,28 @@ namespace ft
 			{
 				return (this->_begin + this->_size);
 			}
+
+			//RBegin
+			reverse_iterator rbegin()
+			{
+				return (reverse_iterator(this->end()));
+			}
+			
+			const_reverse_iterator rbegin() const
+			{
+				return (const_reverse_iterator(this->end()));
+			}
+
+			//REnd
+			reverse_iterator rend()
+			{
+				return (reverse_iterator(this->begin()));
+			}
+			
+			const_reverse_iterator rend() const
+			{
+				return (const_reverse_iterator(this->begin()));
+			}
 			
 			/* ---------------------------------------------------- */
 			/*                                                      */
@@ -275,11 +296,15 @@ namespace ft
 			//At
 			reference at (size_type n)
 			{
+				if (this->_size <= n)
+					throw (std::out_of_range("vector"));
 				return *(this->_begin + n);
 			}
 
 			const_reference at (size_type n) const
 			{
+				if (this->_size <= n)
+					throw (std::out_of_range("vector"));
 				return *(this->_begin + n);
 			}
 

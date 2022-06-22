@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:53:43 by tmartial          #+#    #+#             */
-/*   Updated: 2022/05/18 18:20:02 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/06/22 14:27:11 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 #include "vector.hpp"
 #include "random_iterator.hpp"
 #include "type_traits.hpp"
+#include "reverse_iterator.hpp"
 
-//Yasin chaussure
 int main()
 {
 	ft::vector<int> foo(4, 100);
