@@ -386,6 +386,131 @@ namespace ft
 			iterator erase (iterator position);
 			iterator erase (iterator first, iterator last);
 
+			/* iterator insert (iterator position, const value_type& val)
+			{
+				unsigned int i = 0, j = _size;
+
+				for (iterator it = begin(); it < position; it++, i++);
+				reserve(_size + 1);
+				_size++;
+				while (j > i)
+				{
+					_v[j] = _v[j - 1];
+					j--;
+				}
+				_alloc.construct(_v + i, val);
+				return (iterator(_v + i));
+			}
+			void insert (iterator position, size_type n, const value_type& val)
+			{
+				unsigned int i = 0, j = _size + n - 1;
+				int boo = 0;
+				for (iterator it = begin(); it < position; it++, i++);
+				reserve(n + _size);
+				_size += n;
+				while (j >= n + i)
+				{
+					_v[j] = _v[j - n];
+					j--;
+				}
+				while (j > i && j != 0)
+				{
+					_alloc.construct(_v + j, val);
+					j--;
+					boo = 1;
+				}
+				if (j >= i && boo == 1)
+				{
+					_alloc.construct(_v + j, val);
+					j--;
+				}
+				return ;
+			}
+			template <class InputIterator>
+			void insert (iterator position, InputIterator first, InputIterator last, typename ft::enable_if<!ft::is_integral<InputIterator>::value, InputIterator>::type* = nullptr)
+			{
+				unsigned int	i = 0, pos = 0, j = 0;
+
+				for(InputIterator tmp = first; tmp != last; tmp++)
+						j++;
+				for(iterator tmp = begin(); tmp != position; tmp++)
+						pos++;
+				reserve(_size + j);
+				position = begin() + pos;
+				for(iterator tmp = end() + j - 1; tmp >= position + j; tmp--)
+					*tmp = *(tmp - j);
+				for (InputIterator tmp = first; tmp != last; tmp++)
+				{
+					_alloc.construct(&position[i], *(tmp));
+					i++;
+				}
+				_size += j;
+			}
+			iterator erase (iterator position)
+			{
+				unsigned int i = 0;
+				iterator tmp = position;
+				for (iterator it = begin(); it < position; it++, i++);
+				_alloc.destroy(_v + i);
+				while (position + 1 < end())
+				{
+					*position = *(position + 1);
+					position++;
+				}
+				_size--;
+				return (tmp);
+			}
+			iterator erase (iterator first, iterator last)
+			{
+				unsigned int i = 0;
+				unsigned int diff = last - first;
+				for (iterator it = begin() ; it < last; it++, i++);
+				while (first < last)
+				{
+					last--;
+					i--;
+					_alloc.destroy(_v + i);
+				}
+				i = 0;
+				while (end() > first + diff + i)
+				{
+					*(first + i) = *(first + diff + i);
+					i++;
+				}
+				resize(_size - diff);
+				return (first);
+			}
+			void swap (vector& x)
+			{
+				Alloc alloc;
+				unsigned int size;
+				unsigned int capacity;
+				value_type *tmp;
+				
+				alloc = x._alloc;
+				capacity = x._capacity;
+				size = x._size;
+				tmp = x._v;
+
+				x._alloc = _alloc;
+				x._capacity = _capacity;
+				x._size = _size;
+				x._v = _v;
+
+				_alloc = alloc;
+				_capacity = capacity;
+				_size = size;
+				_v = tmp;
+			}
+			void clear()
+			{
+				for (unsigned int i = 0; i != _size; i++)
+				{
+					_alloc.destroy(&_v[i]);
+				}
+				_size = 0;
+			}*/
+
 			//Swap
 			void swap (vector& x);
 
