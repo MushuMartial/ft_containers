@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:53:43 by tmartial          #+#    #+#             */
-/*   Updated: 2022/06/28 15:29:23 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/06/29 18:16:09 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "utils.hpp"
 #include "type_traits.hpp"
 #include "reverse_iterator.hpp"
+#include "map.hpp"
 
 #include <list>
 
@@ -34,6 +35,7 @@
 int		main(void)
 {
 	std::vector<int> vec(-1);
+	ft::vector<int> tim(1);
 	
 	// std::list<TESTED_TYPE> lst;
 	// std::list<TESTED_TYPE>::iterator lst_it;
