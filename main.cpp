@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:53:43 by tmartial          #+#    #+#             */
-/*   Updated: 2022/06/29 18:16:09 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/11 17:13:18 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,44 +18,23 @@
 #include "type_traits.hpp"
 #include "reverse_iterator.hpp"
 #include "map.hpp"
+#include "binary_tree.hpp"
+#include "pair.hpp"
+#include "node.hpp"
+#include <algorithm>
 
+#include <map>
 #include <list>
-
-
-// ft::vector<TESTED_TYPE>::iterator it_vec;
-	// it_vec = vct.begin();
-	// while ( it_vec != vct.end() )
-	// {
-	// 	std::cout << "- " << *it_vec << std::endl;
-	// 	it_vec++;
-	// }
-
-
 
 int		main(void)
 {
-	std::vector<int> vec(-1);
-	ft::vector<int> tim(1);
+	ft::tree<int, int> tree;
+	tree.insert(ft::pair<int, int>(1, 10));
+	tree.insert(ft::pair<int, int>(2, 20));
+	tree.insert(ft::pair<int, int>(4, 40));
+	tree.insert(ft::pair<int, int>(3, 30));
+	tree.insert(ft::pair<int, int>(5, 50));
+	tree.insert(ft::pair<int, int>(-1, -10));
 	
-	// std::list<TESTED_TYPE> lst;
-	// std::list<TESTED_TYPE>::iterator lst_it;
-	// for (int i = 1; i < 5; ++i)
-	// 	lst.push_back(i * 3);
-
-	// ft::vector<TESTED_TYPE> vct(lst.begin(), lst.end());
-
-	// lst_it = lst.begin();
-	// for (int i = 1; lst_it != lst.end(); ++i)
-	// 	*lst_it++ = i * 5;
-	// vct.assign(lst.begin(), lst.end());
-
-	// vct.insert(vct.end(), lst.rbegin(), lst.rend());
-	// // ft::vector<TESTED_TYPE>::iterator it_vec;
-	// // it_vec = vct.begin();
-	// // while ( it_vec != vct.end() )
-	// // {
-	// // 	std::cout << "- " << *it_vec << std::endl;
-	// // 	it_vec++;
-	// // }
 	return (0);
 }
