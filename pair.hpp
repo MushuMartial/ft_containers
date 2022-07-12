@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:28:55 by tmartial          #+#    #+#             */
-/*   Updated: 2022/06/29 18:29:40 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/12 14:11:10 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ namespace ft {
 		T1	first; // copy of first object
 		T2	second; // copy of second object
 
-		/* Constructors */
+		// Constructors 
 		pair() : first(), second() {}
 
 		pair(const T1 &a, const T2 &b) : first(a), second(b) {}

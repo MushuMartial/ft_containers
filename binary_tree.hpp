@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/11 17:12:36 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/12 15:11:03 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ namespace ft
 			nodePtr		_root;
 			Compare		_comp;
 			Alloc		_alloc;
+			size_type	_size;
 				
 		public:
 			/* ---------------------------------------------------- */
@@ -93,6 +94,7 @@ namespace ft
 			//void insert (const value_type& val)
 			void insert (const ft::pair<const Key, T>& val)
 			{
+				this->_size++;
 				if (!this->_root->data.first)
 					this->_root->data = val;
 				else
@@ -122,15 +124,9 @@ namespace ft
 							tmp = tmp->left;
 						}
 					}
-					
-					
 				}
-				
-				/*if (this->_comp(this->_root->data.first, this->_root->data.second))
-					std::cout << "Working" << std::endl;
-				else
-					std::cout << "Not working" << std::endl;*/
 			}
+			
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                     CONSTRUCTORS                     */
@@ -145,6 +141,24 @@ namespace ft
 			~tree()
 			{
 				this->printTree(this->_root, nullptr, false, 0);
+			}
+
+			/* ---------------------------------------------------- */
+			/*                                                      */
+			/*                      CAPACITY                        */
+			/*                                                      */
+			/* ---------------------------------------------------- */
+			bool empty() const
+			{
+				if (!this->_root->data.first)
+					return true;
+				else
+					return false;
+			}
+
+			size_type size() const
+			{
+				return (this->_size);
 			}
 
 			/* ---------------------------------------------------- */

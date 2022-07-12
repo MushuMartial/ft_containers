@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 13:16:20 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/11 17:11:29 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/12 14:10:37 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,13 @@ namespace ft
 	struct node
 	{
 		public:
+			typedef	ft::pair<const Key, T>		value_type;
+		
+		public:
 			node*					parent;
 			node*					left;
 			node*					right;
-			ft::pair< Key, T>		data;
+			ft::pair<Key, T>		data;
 			Compare					comp;
 			bool					side;
 		
@@ -45,7 +48,7 @@ namespace ft
 			//Constructor Default
 			node() : parent(NULL), left(NULL), right(NULL), data(), side()
 			{
-
+				//std::cout << "Root in node = " << this->data.first << std::endl;
 			}
 
 			//Destructor
@@ -53,6 +56,8 @@ namespace ft
 			{
 				
 			}
+
+			
 
 			
 	};
