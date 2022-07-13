@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 13:16:20 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/12 14:10:37 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/13 15:30:30 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,12 @@
    1     3
 */
 
+#define EMPTY 0
+#define LEFT 1
+#define RIGHT 2
+#define ROOT 3
+
+
 namespace ft
 {
 	template<class Key, class T, class Compare = std::less<Key>,
@@ -38,7 +44,7 @@ namespace ft
 			node*					right;
 			ft::pair<Key, T>		data;
 			Compare					comp;
-			bool					side;
+			int						side;
 		
 			/* ---------------------------------------------------- */
 			/*                                                      */
@@ -46,7 +52,7 @@ namespace ft
 			/*                                                      */
 			/* ---------------------------------------------------- */
 			//Constructor Default
-			node() : parent(NULL), left(NULL), right(NULL), data(), side()
+			node() : parent(NULL), left(NULL), right(NULL), data(), side(0)
 			{
 				//std::cout << "Root in node = " << this->data.first << std::endl;
 			}

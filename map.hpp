@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/12 16:34:49 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/13 13:18:04 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ namespace ft
 			typedef	typename allocator_type::const_reference	const_reference;
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
-			typedef	ft::map_iterator<pair<const Key, T> >		iterator;
+			typedef	ft::map_iterator<ft::pair<const Key, T> >		iterator;
 			//typedef	ft::map_iterator<const pair<const Key, T> >	const_iterator;
 			//typedef	ft::reverse_iterator<iterator> 				reverse_iterator;
 			//typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
@@ -125,8 +125,28 @@ namespace ft
 			{
 				return (this->_alloc->max_size());
 			}
-
 			
+			/* ---------------------------------------------------- */
+			/*                                                      */
+			/*                      ITERATOR                        */
+			/*                                                      */
+			/* ---------------------------------------------------- */
+			
+			/*iterator begin()
+			{
+				iterator it;
+
+				it->_node = this->_tree.begin();
+				return (it);
+			}*/
+
+			/* ---------------------------------------------------- */
+			/*                                                      */
+			/*                      MODIFIERS                       */
+			/*                                                      */
+			/* ---------------------------------------------------- */
+			//Insert
+		
 			
 						
 		

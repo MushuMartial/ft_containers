@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/12 15:11:03 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/13 15:40:14 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@
 # include "binary_tree.hpp"
 # include "map_iterator.hpp"
 # include "node.hpp"
+
+#define EMPTY 0
+#define LEFT 1
+#define RIGHT 2
+#define ROOT 3
 
 namespace ft
 {
@@ -90,16 +95,30 @@ namespace ft
 				node_ptr->data = val;
 				return (node_ptr);
 			}
-
+			
+			nodePtr ret_root()
+			{
+				return (this->_root);
+			}
+			
 			//void insert (const value_type& val)
 			void insert (const ft::pair<const Key, T>& val)
 			{
 				this->_size++;
 				if (!this->_root->data.first)
+				{
 					this->_root->data = val;
+					this->_root->side = ROOT;
+				}
 				else
 				{
 					nodePtr tmp = this->_root;
+					int side = 0;
+					
+					if (this->_comp(tmp->data.first, val.first))
+						side = RIGHT;
+					else
+						side = LEFT;
 					
 					while (true)
 					{
@@ -124,6 +143,7 @@ namespace ft
 							tmp = tmp->left;
 						}
 					}
+					tmp->left->side = side;
 				}
 			}
 			
@@ -133,7 +153,7 @@ namespace ft
 			/*                                                      */
 			/* ---------------------------------------------------- */
 			tree (const key_compare& comp = key_compare(),const allocator_type& alloc = allocator_type())
-			:  _root(), _comp(comp), _alloc(alloc)
+			:  _root(), _comp(comp), _alloc(alloc), _size(0)
 			{
 				this->_root = new_node();
 			}
@@ -160,7 +180,27 @@ namespace ft
 			{
 				return (this->_size);
 			}
-
+			
+			/* ---------------------------------------------------- */
+			/*                                                      */
+			/*                      FIND                            */
+			/*                                                      */
+			/* ---------------------------------------------------- */
+			
+			nodePtr begin()
+			{
+				nodePtr tmp = this->_root;
+				
+				if (!tmp->left)
+					return (tmp);
+				while (tmp->left)
+				{
+					tmp = tmp->left;
+				}
+				return (tmp);
+			}
+			
+			
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                     OBSERVERS                        */
