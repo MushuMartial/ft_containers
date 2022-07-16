@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:03 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/13 17:20:37 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/16 16:27:33 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,17 +79,18 @@ namespace	ft
 				if (tmp->parent == NULL)//node == root
 				{
 					this->_node = smallest_right();
-					return *this;
 				}
-				else if (!tmp->left && !tmp->right)//node == leaf 
+
+				else if (this->_node->right)
 				{
-					this->_node = tmp->parent;
-					return *this;
+					this->_node = next_bigger();
 				}
-				else if ()
+				
+				else
 				{
-						
+					this->_node = ret_bigger_node();
 				}
+				
 				return *this;
 			}
 			
@@ -113,6 +114,45 @@ namespace	ft
 				while (tmp->left)
 					tmp = tmp->left;
 				return (tmp);
+			}
+
+			//Return root
+			nodePtr ret_root()
+			{
+				nodePtr tmp = this->_node;
+
+				while (tmp->parent)
+				{
+					tmp = tmp->parent;
+				}
+				return (tmp);
+			}
+
+			//Return the node bigger than this->_node on the branch
+			nodePtr ret_bigger_node()
+			{
+				nodePtr tmp = this->_node->parent;
+
+				while (tmp->parent)
+				{
+					if (tmp->comp(this->_node->data.first, tmp->data.first))
+						break;
+					
+					tmp = tmp->parent;
+				}
+				return tmp;
+			}
+
+			//Return next smalles
+			nodePtr next_bigger()
+			{
+				nodePtr tmp = this->_node->right;
+
+				while (tmp->left)
+				{
+					tmp = tmp->left;
+				}
+				return tmp;
 			}
 	
 	};

@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/13 15:40:14 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/16 13:37:48 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,17 +108,10 @@ namespace ft
 				if (!this->_root->data.first)
 				{
 					this->_root->data = val;
-					this->_root->side = ROOT;
 				}
 				else
 				{
 					nodePtr tmp = this->_root;
-					int side = 0;
-					
-					if (this->_comp(tmp->data.first, val.first))
-						side = RIGHT;
-					else
-						side = LEFT;
 					
 					while (true)
 					{
@@ -127,6 +120,7 @@ namespace ft
 							if (!tmp->right)
 							{
 								tmp->right = new_node(val);
+								tmp->right->parent = tmp;
 								break;
 							}
 							else
@@ -137,13 +131,13 @@ namespace ft
 							if (!tmp->left)
 							{
 								tmp->left = new_node(val);
+								tmp->left->parent = tmp;
 								break;
 							}
 							else
 							tmp = tmp->left;
 						}
 					}
-					tmp->left->side = side;
 				}
 			}
 			

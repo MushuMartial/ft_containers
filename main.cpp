@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:53:43 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/13 16:18:02 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/16 16:44:33 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,26 +30,25 @@
 int		main(void)
 {
 	ft::tree<int, int> tree;
-	tree.insert(ft::pair<int, int>(2, 10));
-	tree.insert(ft::pair<int, int>(1, 20));
-	tree.insert(ft::pair<int, int>(5, 40));
-	tree.insert(ft::pair<int, int>(4, 30));
-	tree.insert(ft::pair<int, int>(3, 50));
+	tree.insert(ft::pair<int, int>(8, 10));
 
-	
+	tree.insert(ft::pair<int, int>(7, 10));
+	tree.insert(ft::pair<int, int>(1, 10));
+	tree.insert(ft::pair<int, int>(4, 10));
+	tree.insert(ft::pair<int, int>(3, 10));
+	tree.insert(ft::pair<int, int>(2, 10));
+	tree.insert(ft::pair<int, int>(5, 10));
+	tree.insert(ft::pair<int, int>(6, 10));
 
 	ft::map_iterator<ft::pair<int,int> > it;
-	//it._node = tree.begin();
-	it._node = tree.ret_root();
+	it._node = tree.begin();
 
-	++it;
-	
-	//it._node = it.smallest_right();
+	std::cout << "first = " << it->first << " && second = " << it->second << std::endl;
+	for (size_t i = 0; i < 1; i++)
+	{
+		++it;
+		std::cout << "first = " << it->first << " && second = " << it->second << std::endl;
+	}
 
-	std::cout << "first = " << it->first << " second = " << it->second << std::endl;
-
-	
-	
-	
 	
 }
