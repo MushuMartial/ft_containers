@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/13 13:18:04 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/18 16:45:06 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ namespace ft
 	class map
 	{
 		public:
+			// Members Types
 			typedef	Key											key_type;
 			typedef	T											mapped_type;
 			typedef	ft::pair<const key_type, mapped_type>		value_type;
@@ -45,11 +46,12 @@ namespace ft
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
 			typedef	ft::map_iterator<ft::pair<const Key, T> >		iterator;
-			//typedef	ft::map_iterator<const pair<const Key, T> >	const_iterator;
-			//typedef	ft::reverse_iterator<iterator> 				reverse_iterator;
-			//typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
+			typedef	ft::map_iterator<const pair<const Key, T> >	const_iterator;
+			typedef	ft::reverse_iterator<iterator> 				reverse_iterator;
+			typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 			typedef typename allocator_type::size_type			size_type;
 
+			// My Members Types
 			typedef node<Key, T> *								nodePtr;
 			typedef tree<Key, T>								tree;
 			typedef std::allocator<node<key_type, mapped_type> > nodeAlloc;
@@ -108,7 +110,7 @@ namespace ft
 			/*                      CAPACITY                        */
 			/*                                                      */
 			/* ---------------------------------------------------- */
-			//Empty DOESNT WORK
+			//Empty
 			bool empty() const
 			{
 				return (this->_tree.empty());

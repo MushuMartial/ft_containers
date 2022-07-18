@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:03 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/16 16:27:33 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/18 16:21:20 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,6 @@
 # include "binary_tree.hpp"
 # include "map_iterator.hpp"
 
-#define EMPTY 0
-#define LEFT 1
-#define RIGHT 2
-#define ROOT 3
-
 template<class Key, class T, class Compare = std::less<Key>,
 		class Alloc = std::allocator<ft::pair<const Key,T> >  >
 	struct node;
@@ -54,12 +49,18 @@ namespace	ft
 			typedef typename ft::iterator<map_iterator, T>::pointer				pointer;
 			typedef typename ft::iterator<map_iterator, T>::reference			reference;
 
+			// My Members Types
 			typedef node<typename T::first_type, typename T::second_type>* nodePtr;
 		
 			//Attributes
 			nodePtr	_node;
 			int		_next;
 			
+			/* ---------------------------------------------------- */
+			/*                                                      */
+			/*                     CONSTRUCTORS                     */
+			/*                                                      */
+			/* ---------------------------------------------------- */
 			map_iterator() : _node()
 			{
 				
@@ -67,55 +68,104 @@ namespace	ft
 
 			~map_iterator() {}
 			
-			T&	operator*() const
+			/* ---------------------------------------------------- */
+			/*                                                      */
+			/*                     OPERATORS                        */
+			/*                                                      */
+			/*  --------------------------------------------------- */
+			map_iterator&	operator++()
 			{
-				return ((this->_node->data));
-			}
-			
-			map_iterator &	operator++()
-			{
-				nodePtr tmp = this->_node;
-				
-				if (tmp->parent == NULL)//node == root
+				if (this->_node == nullptr)//iterator at end or empty 
 				{
-					this->_node = smallest_right();
+					return *this;
+				}
+				
+				else if (!this->_node->parent && !this->_node->right)//node == root && !right
+				{
+					this->_node = nullptr;
 				}
 
 				else if (this->_node->right)
 				{
-					this->_node = next_bigger();
+					this->_node = down_bigger_node();
 				}
 				
 				else
 				{
-					this->_node = ret_bigger_node();
+					this->_node = up_bigger_node();
 				}
-				
 				return *this;
 			}
+
+			map_iterator  operator++(int)
+			{
+				map_iterator tmp = *this;
+
+				++*this;
+				return tmp;
+			}
+
+			map_iterator&	operator--()
+			{
+				if (this->_node == nullptr)//iterator at end or empty 
+				{
+					return *this;
+				}
+
+				else if (!this->_node->parent && !this->_node->left)//node == root && !left
+				{
+					this->_node = nullptr;
+				}
+
+				else if (this->_node->left)
+				{
+					this->_node = down_smallest_node();
+				}
+				
+				else
+				{
+					this->_node = up_smallest_node();
+				}
+				return *this;
+			}
+
+			map_iterator  operator--(int)
+			{
+				map_iterator tmp = *this;
+
+				--*this;
+				return tmp;
+			}
 			
+			T&	operator*() const
+			{
+				return ((this->_node->data));
+			}
+
 			T*		operator->() const 
 			{
 				return (&this->_node->data);
 			}
+
+			/*bool	operator==(const map_iterator ref) const
+			{
+				if ((this->_lst == 1 && ref._lst == 1) || 
+					(this->_node->leaf() && ref._node->leaf()))
+				{
+					return (1);
+				}
+				return (this->_node == ref._node);
+			}
+
+			bool	operator!=(const map_iterator ref) const 
+			{
+				return (!(*this == ref));
+			}*/
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                     UTILS                            */
 			/*                                                      */
 			/* ---------------------------------------------------- */
-			//Return smallest node on right starting from the root
-			nodePtr smallest_right()
-			{
-				nodePtr tmp = this->_node;
-				
-				if (!tmp->right)
-					return (tmp);
-				tmp = tmp->right;
-				while (tmp->left)
-					tmp = tmp->left;
-				return (tmp);
-			}
-
 			//Return root
 			nodePtr ret_root()
 			{
@@ -129,7 +179,7 @@ namespace	ft
 			}
 
 			//Return the node bigger than this->_node on the branch
-			nodePtr ret_bigger_node()
+			nodePtr up_bigger_node()
 			{
 				nodePtr tmp = this->_node->parent;
 
@@ -137,14 +187,15 @@ namespace	ft
 				{
 					if (tmp->comp(this->_node->data.first, tmp->data.first))
 						break;
-					
 					tmp = tmp->parent;
+					if (!tmp->parent) //node == biggest
+						tmp = nullptr;
 				}
 				return tmp;
 			}
 
 			//Return next smalles
-			nodePtr next_bigger()
+			nodePtr down_bigger_node()
 			{
 				nodePtr tmp = this->_node->right;
 
@@ -154,6 +205,36 @@ namespace	ft
 				}
 				return tmp;
 			}
+
+			//Return the node bigger than this->_node on the branch
+			nodePtr up_smallest_node()
+			{
+				nodePtr tmp = this->_node->parent;
+
+				while (tmp->parent)
+				{
+					if (tmp->comp(tmp->data.first, this->_node->data.first))
+						break;
+					tmp = tmp->parent;
+					if (!tmp->parent) //node == smallest
+						tmp = nullptr;
+				}
+				return tmp;
+			}
+
+			//Return next smalles
+			nodePtr down_smallest_node()
+			{
+				nodePtr tmp = this->_node->left;
+
+				while (tmp->right)
+				{
+					tmp = tmp->right;
+				}
+				return tmp;
+			}
+
+			
 	
 	};
 }

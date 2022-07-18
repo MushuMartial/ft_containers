@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/16 13:37:48 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/18 16:27:33 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,6 @@
 # include "map_iterator.hpp"
 # include "node.hpp"
 
-#define EMPTY 0
-#define LEFT 1
-#define RIGHT 2
-#define ROOT 3
-
 namespace ft
 {
 	
@@ -42,6 +37,7 @@ namespace ft
 	class tree
 	{
 		public:
+			// Members Types
 			typedef	Key											key_type;
 			typedef	T											mapped_type;
 			typedef	ft::pair<const key_type, mapped_type>		value_type;
@@ -51,13 +47,13 @@ namespace ft
 			typedef	typename allocator_type::const_reference	const_reference;
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
-			//typedef	ft::map_iterator<pair<const Key, T> >		iterator;
-			//typedef	ft::map_iterator<const pair<const Key, T> >	const_iterator;
-			//typedef	ft::reverse_iterator<iterator> 				reverse_iterator;
-			//typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
+			typedef	ft::map_iterator<pair<const Key, T> >		iterator;
+			typedef	ft::map_iterator<const pair<const Key, T> >	const_iterator;
+			typedef	ft::reverse_iterator<iterator> 				reverse_iterator;
+			typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 			typedef typename allocator_type::size_type			size_type;
 			
-			/* ----- MY Member Types ----- */
+			// My Members Types
 			typedef node<Key, T> *								nodePtr;
 			typedef std::allocator<node<key_type, mapped_type> > nodeAlloc;
 		
@@ -65,7 +61,6 @@ namespace ft
 			nodePtr		_root;
 			Compare		_comp;
 			Alloc		_alloc;
-			size_type	_size;
 				
 		public:
 			/* ---------------------------------------------------- */
@@ -73,7 +68,7 @@ namespace ft
 			/*                     UTILS                            */
 			/*                                                      */
 			/* ---------------------------------------------------- */
-			/* return a empty node */
+			//Return a empty node
 			nodePtr	new_node()
 			{
 				nodeAlloc	alloc;
@@ -96,15 +91,9 @@ namespace ft
 				return (node_ptr);
 			}
 			
-			nodePtr ret_root()
-			{
-				return (this->_root);
-			}
-			
 			//void insert (const value_type& val)
 			void insert (const ft::pair<const Key, T>& val)
 			{
-				this->_size++;
 				if (!this->_root->data.first)
 				{
 					this->_root->data = val;
@@ -147,7 +136,7 @@ namespace ft
 			/*                                                      */
 			/* ---------------------------------------------------- */
 			tree (const key_compare& comp = key_compare(),const allocator_type& alloc = allocator_type())
-			:  _root(), _comp(comp), _alloc(alloc), _size(0)
+			:  _root(), _comp(comp), _alloc(alloc)
 			{
 				this->_root = new_node();
 			}
@@ -172,7 +161,8 @@ namespace ft
 
 			size_type size() const
 			{
-				return (this->_size);
+				size_type i = 1;
+				return (i);
 			}
 			
 			/* ---------------------------------------------------- */
@@ -180,6 +170,10 @@ namespace ft
 			/*                      FIND                            */
 			/*                                                      */
 			/* ---------------------------------------------------- */
+			nodePtr ret_root()
+			{
+				return (this->_root);
+			}
 			
 			nodePtr begin()
 			{
@@ -190,6 +184,19 @@ namespace ft
 				while (tmp->left)
 				{
 					tmp = tmp->left;
+				}
+				return (tmp);
+			}
+			
+			nodePtr end()
+			{
+				nodePtr tmp = this->_root;
+				
+				if (!tmp->right)
+					return (tmp);
+				while (tmp->right)
+				{
+					tmp = tmp->right;
 				}
 				return (tmp);
 			}
