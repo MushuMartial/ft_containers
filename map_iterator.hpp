@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:03 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/18 16:21:20 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/20 18:53:20 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,12 +139,12 @@ namespace	ft
 			
 			T&	operator*() const
 			{
-				return ((this->_node->data));
+				return (*(this->_node->data));
 			}
 
 			T*		operator->() const 
 			{
-				return (&this->_node->data);
+				return (this->_node->data);
 			}
 
 			/*bool	operator==(const map_iterator ref) const
@@ -161,6 +161,15 @@ namespace	ft
 			{
 				return (!(*this == ref));
 			}*/
+			bool	operator!=(const map_iterator ref) const 
+			{
+				if (!this->_node && !ref._node)
+				{
+					std::cout << "hillo" << std::endl;
+					return false;
+				}
+				return true;
+			}
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                     UTILS                            */
@@ -183,9 +192,15 @@ namespace	ft
 			{
 				nodePtr tmp = this->_node->parent;
 
+				if (!tmp->parent && tmp->right == this->_node)
+				{
+					tmp = nullptr;
+					return (tmp);
+				}
+					
 				while (tmp->parent)
 				{
-					if (tmp->comp(this->_node->data.first, tmp->data.first))
+					if (tmp->comp(this->_node->data->first, tmp->data->first))
 						break;
 					tmp = tmp->parent;
 					if (!tmp->parent) //node == biggest
@@ -211,9 +226,15 @@ namespace	ft
 			{
 				nodePtr tmp = this->_node->parent;
 
+				if (!tmp->parent && tmp->left == this->_node)
+				{
+					tmp = nullptr;
+					return (tmp);
+				}
+				
 				while (tmp->parent)
 				{
-					if (tmp->comp(tmp->data.first, this->_node->data.first))
+					if (tmp->comp(tmp->data->first, this->_node->data->first))
 						break;
 					tmp = tmp->parent;
 					if (!tmp->parent) //node == smallest

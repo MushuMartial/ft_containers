@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:53:43 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/18 16:44:47 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/20 18:54:07 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,16 @@
 
 int		main(void)
 {
-	ft::map<int, int> map;
+	ft::map<int, int> first;
 
-	if (map.empty())
-		std::cout << "empty" << std::endl;
-	else
-		std::cout << "Not empty" << std::endl;
+	first.insert(ft::pair<int, int>(2, 20));
+	first.insert(ft::pair<int, int>(1, 10));
+	first.insert(ft::pair<int, int>(3, 30));
+
+
+	ft::map<int, int> second(first.begin(), first.end());
+	second.insert(ft::pair<int, int>(5, 10));
+	second.insert(ft::pair<int, int>(4, 10));
+	//second.insert(ft::pair<int, int>(6, 10));
+	
 }

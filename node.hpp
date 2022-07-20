@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 13:16:20 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/13 15:30:30 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/20 16:42:49 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,6 @@
 # include "utils.hpp"
 # include "pair.hpp"
 # include "binary_tree.hpp"
-
-/* 
-      2
-	/   \
-   1     3
-*/
-
-#define EMPTY 0
-#define LEFT 1
-#define RIGHT 2
-#define ROOT 3
-
 
 namespace ft
 {
@@ -42,9 +30,8 @@ namespace ft
 			node*					parent;
 			node*					left;
 			node*					right;
-			ft::pair<Key, T>		data;
+			ft::pair<const Key, T>*	data;
 			Compare					comp;
-			int						side;
 		
 			/* ---------------------------------------------------- */
 			/*                                                      */
@@ -52,18 +39,23 @@ namespace ft
 			/*                                                      */
 			/* ---------------------------------------------------- */
 			//Constructor Default
-			node() : parent(NULL), left(NULL), right(NULL), data(), side(0)
+			node() : parent(NULL), left(NULL), right(NULL), data(NULL)
 			{
-				//std::cout << "Root in node = " << this->data.first << std::endl;
+
 			}
 
+			node(const ft::pair<const Key, T>& val) : parent(NULL), left(NULL), right(NULL)
+			{
+				std::allocator<pair<const Key,T> >	alloc;
+
+				this->data = alloc.allocate(1);
+				alloc.construct(this->data, val);
+			}
 			//Destructor
 			~node()
 			{
 				
 			}
-
-			
 
 			
 	};

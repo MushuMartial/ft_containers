@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/18 16:27:33 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/20 17:32:30 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ namespace ft
 			typedef typename allocator_type::size_type			size_type;
 			
 			// My Members Types
-			typedef node<Key, T> *								nodePtr;
-			typedef std::allocator<node<key_type, mapped_type> > nodeAlloc;
+			typedef node<const Key, T> *								nodePtr;
+			typedef std::allocator<node<const key_type, mapped_type> > nodeAlloc;
 		
 		public:
 			nodePtr		_root;
@@ -68,14 +68,14 @@ namespace ft
 			/*                     UTILS                            */
 			/*                                                      */
 			/* ---------------------------------------------------- */
-			//Return a empty node
+			//Return a empty node NOT USED
 			nodePtr	new_node()
 			{
 				nodeAlloc	alloc;
 				nodePtr		node_ptr;
 				
 				node_ptr = alloc.allocate(1);
-				alloc.construct(node_ptr, node<Key, T>());
+				alloc.construct(node_ptr, node<const Key, T>());
 				return (node_ptr);
 			}
 
@@ -84,19 +84,19 @@ namespace ft
 			{
 				nodeAlloc	alloc;
 				nodePtr		node_ptr;
+				ft::node<const Key, T>    node(val);
 				
 				node_ptr = alloc.allocate(1);
-				alloc.construct(node_ptr, node<Key, T>());
-				node_ptr->data = val;
+				alloc.construct(node_ptr, node);
 				return (node_ptr);
 			}
 			
 			//void insert (const value_type& val)
 			void insert (const ft::pair<const Key, T>& val)
 			{
-				if (!this->_root->data.first)
+				if (!this->_root)
 				{
-					this->_root->data = val;
+					this->_root = new_node(val);
 				}
 				else
 				{
@@ -104,7 +104,7 @@ namespace ft
 					
 					while (true)
 					{
-						if (this->_comp(tmp->data.first, val.first))
+						if (this->_comp(tmp->data->first, val.first))
 						{
 							if (!tmp->right)
 							{
@@ -136,14 +136,14 @@ namespace ft
 			/*                                                      */
 			/* ---------------------------------------------------- */
 			tree (const key_compare& comp = key_compare(),const allocator_type& alloc = allocator_type())
-			:  _root(), _comp(comp), _alloc(alloc)
+			:  _root(nullptr), _comp(comp), _alloc(alloc)
 			{
-				this->_root = new_node();
+				
 			}
 			
 			~tree()
 			{
-				this->printTree(this->_root, nullptr, false, 0);
+				//this->printTree(this->_root, nullptr, false, 0);
 			}
 
 			/* ---------------------------------------------------- */
@@ -153,10 +153,7 @@ namespace ft
 			/* ---------------------------------------------------- */
 			bool empty() const
 			{
-				if (!this->_root->data.first)
-					return true;
-				else
-					return false;
+				return (!this->_root ? true : false);
 			}
 
 			size_type size() const
@@ -264,7 +261,7 @@ namespace ft
 				std::cout << p->str;
 			}
 
-			void printTree(node<Key, T>* root, Trunk *prev, bool isLeft, bool type)
+			void printTree(node<const Key, T>* root, Trunk *prev, bool isLeft, bool type)
 			{
 				if (root == NULL) {
 					return;
@@ -287,7 +284,7 @@ namespace ft
 					prev->str = prev_str;
 				}
 				showTrunks(trunk);
-				std::cout << " " << root->data.first << "( ): " << root->data.second << std::endl;
+				std::cout << " " << root->data->first << "( ): " << root->data->second << std::endl;
 				if (prev) {
 					prev->str = prev_str;
 				}
