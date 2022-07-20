@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:03 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/20 18:53:20 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/20 20:39:14 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,28 +147,14 @@ namespace	ft
 				return (this->_node->data);
 			}
 
-			/*bool	operator==(const map_iterator ref) const
+			bool	operator==(const map_iterator ref) const 
 			{
-				if ((this->_lst == 1 && ref._lst == 1) || 
-					(this->_node->leaf() && ref._node->leaf()))
-				{
-					return (1);
-				}
-				return (this->_node == ref._node);
+				return (this->_node->data->first == ref._node->data->first ? true : false);
 			}
-
+			
 			bool	operator!=(const map_iterator ref) const 
 			{
-				return (!(*this == ref));
-			}*/
-			bool	operator!=(const map_iterator ref) const 
-			{
-				if (!this->_node && !ref._node)
-				{
-					std::cout << "hillo" << std::endl;
-					return false;
-				}
-				return true;
+				return (this->_node->data->first == ref._node->data->first ? false : true);
 			}
 			/* ---------------------------------------------------- */
 			/*                                                      */

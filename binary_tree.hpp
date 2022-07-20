@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/20 17:32:30 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/20 20:43:51 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,12 +156,6 @@ namespace ft
 				return (!this->_root ? true : false);
 			}
 
-			size_type size() const
-			{
-				size_type i = 1;
-				return (i);
-			}
-			
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                      FIND                            */

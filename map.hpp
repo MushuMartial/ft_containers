@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/20 18:54:31 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/20 21:04:40 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ namespace ft
 			//Destructor
 			~map()
 			{
-				this->_tree.printTree(this->_tree._root, nullptr, false, 0);
+				//this->_tree.printTree(this->_tree._root, nullptr, false, 0);
 			}
 
 			//Operator =
@@ -170,7 +170,15 @@ namespace ft
 			//size
 			size_type size() const
 			{
-				return (this->_tree.size());
+				size_type ret = 0;
+				iterator it = this->begin();
+				
+				while (it != this->end())
+				{
+					it++;
+					ret++;
+				}
+				return (ret);
 			}
 
 			//max_size
@@ -184,7 +192,7 @@ namespace ft
 			/*                   ELEMENT ACCESS                     */
 			/*                                                      */
 			/* ---------------------------------------------------- */
-			mapped_type& operator[] (const key_type& k);
+			//mapped_type& operator[] (const key_type& k);
 			
 			/* ---------------------------------------------------- */
 			/*                                                      */
@@ -203,7 +211,22 @@ namespace ft
 			//void erase (iterator first, iterator last);
 
 			//Swap
-			//void swap (map& x);
+			void swap (map& x)
+			{
+				tree	tmp_tree = this->_tree;
+				Compare	tmp_comp = this->_comp;
+				Alloc	tmp_alloc = this->_alloc;
+
+				this->_tree = x._tree;
+				this->_comp = x._comp;
+				this->_alloc = x._alloc;
+
+				x._tree = tmp_tree;
+				x._comp = tmp_comp;
+				x._alloc = tmp_alloc;
+			}
+
+			//Clear
 			//void clear();
 
 			/* ---------------------------------------------------- */
@@ -211,7 +234,7 @@ namespace ft
 			/*                     OBSERVERS                        */
 			/*                                                      */
 			/* ---------------------------------------------------- */
-			/*key_compare key_comp() const
+			key_compare key_comp() const
 			{
 				return (this->_comp);
 			}
@@ -238,7 +261,7 @@ namespace ft
 			value_compare value_comp() const
 			{
 				return (value_compare(_comp));
-			}*/
+			}
 
 			/* ---------------------------------------------------- */
 			/*                                                      */
