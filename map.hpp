@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/20 21:04:40 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/21 15:46:56 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,7 @@ namespace ft
 			/*                     UTILS                            */
 			/*                                                      */
 			/* ---------------------------------------------------- */
-			void insert (const ft::pair<const Key, T>& val)
-			{
-				this->_tree.insert(val);
-			}
+			
 			
 			/* ---------------------------------------------------- */
 			/*                                                      */
@@ -184,7 +181,7 @@ namespace ft
 			//max_size
 			size_type max_size() const
 			{
-				return (this->_alloc->max_size());
+				return (this->_alloc.max_size());
 			}
 			
 			/* ---------------------------------------------------- */
@@ -192,7 +189,10 @@ namespace ft
 			/*                   ELEMENT ACCESS                     */
 			/*                                                      */
 			/* ---------------------------------------------------- */
-			//mapped_type& operator[] (const key_type& k);
+			mapped_type& operator[] (const key_type& k)
+			{
+				return (*((this->insert(make_pair(k,mapped_type()))).first)).second;
+			}
 			
 			/* ---------------------------------------------------- */
 			/*                                                      */
@@ -200,15 +200,63 @@ namespace ft
 			/*                                                      */
 			/* ---------------------------------------------------- */
 			//Insert
-			//pair<iterator,bool> insert (const value_type& val);
-			//iterator insert (iterator position, const value_type& val);
-			//template <class InputIterator>
-  			//void insert (InputIterator first, InputIterator last);
+			pair<iterator,bool> insert (const value_type& val)
+			{
+				iterator it = this->find(val.first);
+				bool ret;
+				
+				if (!it._node || val.first != it->first)
+				{
+					this->_tree.insert(val);
+					iterator it = this->find(val.first);
+					ret = true;
+				}
+				else
+					ret = false;
+				return (pair<iterator,bool>(it, ret));	
+			}
+			
+			iterator insert (iterator position, const value_type& val)
+			{
+				(void)position;
+				ft::pair<iterator, bool> tmp  = this->insert(val);
+				
+				return (tmp->first);
+			}
+			
+			template <class InputIterator>
+  			void insert (InputIterator first, InputIterator last)
+			{
+				while (first != last)
+				{
+					this->insert(*first);
+					first++;
+				}
+				
+			}
 
 			//Erase
-			//void erase (iterator position);
-			//size_type erase (const key_type& k);
-			//void erase (iterator first, iterator last);
+			void erase (iterator position)
+			{
+				this->_tree.erase(*position);
+			}
+			
+			size_type erase (const key_type& k) //remove worked = 1 else 0
+			{
+				(void)k;
+				size_type ret = 0;
+				return (0);
+			}
+			
+			void erase (iterator first, iterator last)
+			{
+				while (first != last)
+				{
+					this->_tree.erase(*first);
+					first++;
+				}
+				
+			}
 
 			//Swap
 			void swap (map& x)
@@ -227,7 +275,10 @@ namespace ft
 			}
 
 			//Clear
-			//void clear();
+			void clear()
+			{
+				
+			}
 
 			/* ---------------------------------------------------- */
 			/*                                                      */
@@ -265,30 +316,127 @@ namespace ft
 
 			/* ---------------------------------------------------- */
 			/*                                                      */
+			/*                     ALLOCATOR                        */
+			/*                                                      */
+			/* ---------------------------------------------------- */
+			allocator_type get_allocator() const
+			{
+				return (this->_alloc);
+			}
+			
+			/* ---------------------------------------------------- */
+			/*                                                      */
 			/*                     OPERATORS                        */
 			/*                                                      */
 			/*  --------------------------------------------------- */
 			//Find
-			//iterator find (const key_type& k);
-			//const_iterator find (const key_type& k) const;
+			iterator find (const key_type& k)
+			{
+				iterator it;
+				nodePtr tmp = this->_tree.search(k);
+
+				if (tmp)
+				{
+					it._node = tmp;
+				}
+				else
+				{
+					it = this->end();
+				}
+				return it;
+			}
+			
+			const_iterator find (const key_type& k) const
+			{
+				const_iterator it;
+				nodePtr tmp = this->_tree.search(k);
+
+				if (tmp)
+					it._node;
+				else
+					it = this->end();
+				return it;
+			}
 
 			//Count
-			//size_type count (const key_type& k) const;
+			size_type count (const key_type& k) const
+			{
+				size_type ret = 0;
+
+				if (this->search(k) == nullptr)
+					return ret;
+				return (ret + 1);
+			}
 
 			//Lower Bound
-			//iterator lower_bound (const key_type& k);
-			//const_iterator lower_bound (const key_type& k) const;
+			iterator lower_bound (const key_type& k)
+			{
+				iterator it = this->begin();
+				iterator end = this->end();
+
+				while (it != end)
+				{
+					if (!(this->_comp((*it).first, k)))
+						return (it);
+					it++;
+				}
+				return (end);
+			}
+			
+			const_iterator lower_bound (const key_type& k) const
+			{
+				const_iterator it = this->begin();
+				const_iterator end = this->end();
+
+				while (it != end)
+				{
+					if (!(this->_comp((*it).first, k)))
+						return (it);
+					it++;
+				}
+				return (end);
+			}
 
 			//Upper Bound
-			//iterator upper_bound (const key_type& k);
-			//const_iterator upper_bound (const key_type& k) const;
+			iterator upper_bound (const key_type& k)
+			{
+				iterator it = this->begin();
+				iterator end = this->end();
+
+				while (it != end)
+				{
+					if ((this->_comp(k, (*it).first)))
+						return (it);
+					it++;
+				}
+				return (end);
+			}
+			
+			const_iterator upper_bound (const key_type& k) const
+			{
+				const_iterator it = this->begin();
+				const_iterator end = this->end();
+
+				while (it != end)
+				{
+					if ((this->_comp(k, (*it).first)))
+						return (it);
+					it++;
+				}
+				return (end);
+			}
 		
 			//Equal Range
-			//pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
-			//pair<iterator,iterator>             equal_range (const key_type& k);
+			pair<const_iterator,const_iterator> equal_range (const key_type& k) const
+			{
+				return (pair<iterator,iterator>(this->lower_bound(k), this->upper_bound(k)));
+			}
 			
-						
-		
+			pair<iterator,iterator>             equal_range (const key_type& k)
+			{
+				return (pair<const_iterator, const_iterator>(this->lower_bound(k), this->upper_bound(k)));
+			}
+
 	};
 }
 

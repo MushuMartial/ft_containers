@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 14:10:35 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/02 11:58:29 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/21 15:43:53 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,10 @@ namespace ft {
 	{
 		return pair<T1, T2>(x, y);
 	}
+	
 	/* Xana */
-	template< class T2 > struct remove_const                { typedef T2 type; };
-	template< class T2 > struct remove_const<const T2>       { typedef T2 type; };
+	// template< class T2 > struct remove_const                { typedef T2 type; };
+	// template< class T2 > struct remove_const<const T2>       { typedef T2 type; };
 }
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:03 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/20 20:39:14 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/21 15:54:02 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,14 @@ template<class Key, class T, class Compare = std::less<Key>,
 
 namespace	ft
 {
+	template< class T2 > struct remove_const                { typedef T2 type; };
+	template< class T2 > struct remove_const<const T2>       { typedef T2 type; };
+	
 	template <class T>
 	class map_iterator
 	{
+		private:
+			
 		public:
 			// Members Types
 			typedef	typename T::first_type				key_type;
@@ -54,7 +59,6 @@ namespace	ft
 		
 			//Attributes
 			nodePtr	_node;
-			int		_next;
 			
 			/* ---------------------------------------------------- */
 			/*                                                      */
@@ -65,6 +69,11 @@ namespace	ft
 			{
 				
 			}
+
+			/*map_iterator(const map_iterator<typename remove_const<T>::type> & ref) : _node(ref._node)
+			{
+				
+			}*/
 
 			~map_iterator() {}
 			
@@ -149,12 +158,30 @@ namespace	ft
 
 			bool	operator==(const map_iterator ref) const 
 			{
-				return (this->_node->data->first == ref._node->data->first ? true : false);
+				if (!this->_node || !ref._node)
+				{
+					if (!this->_node && !ref._node)
+						return true;
+					return false;
+				}
+				if (this->_node->comp(this->_node->data->first, ref._node->data->first) == false
+				&& this->_node->comp(ref._node->data->first, this->_node->data->first) == false)
+				 	return true;
+				return false;
 			}
 			
 			bool	operator!=(const map_iterator ref) const 
 			{
-				return (this->_node->data->first == ref._node->data->first ? false : true);
+				if (!this->_node || !ref._node)
+				{
+					if (!this->_node && !ref._node)
+						return false;
+					return true;
+				}
+				if (this->_node->comp(this->_node->data->first, ref._node->data->first) == false
+				&& this->_node->comp(ref._node->data->first, this->_node->data->first) == false)
+				 	return false;
+				return true;
 			}
 			/* ---------------------------------------------------- */
 			/*                                                      */

@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/20 20:43:51 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/21 15:34:42 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,69 @@ namespace ft
 				}
 			}
 			
+			bool erase (const value_type& val)
+			{
+				(void)val;
+				//nodePtr tmp = this->search(val.first);
+				
+				// if (!this->_root || !tmp)
+				// 	return false;
+				
+				// if (tmp == this->_root)
+				// {
+				// 	this->_root = nullptr;
+				// 	return true;
+				// }
+
+				// side = this->side(); //false = right
+				// if (!tmp->left && !tmp->right) //leaf
+				// {
+				// 	if (!side)
+				// 		tmp->parent->right = nullptr;
+				// 	else
+				// 		tmp->parent->left = nullptr;
+				// 	return true;
+				// }
+
+				// if (!tmp->left || !tmp->right)
+				// {
+				// 	if (!tmp->left)
+				// 	{
+				// 		if (side == false)
+				// 		{
+				// 			tmp->parent->right = tmp;
+				// 		}
+				// 		else
+				// 		{
+							
+				// 		}
+				// 	}
+						
+				// }
+				// if (!tmp->left->right)
+				// {
+				// 	tmp 
+				// }
+				// if (!tmp->right->left)
+				// {
+					
+				// }
+				return true;
+			}
+
+			bool erase (const key_type& k)
+			{
+				(void)k;
+				return true;
+			}
+
+			bool side(nodePtr src)
+			{
+				
+				if (this->_comp(src->parent->data->first, src->data->first))
+					return false; //right
+				return true; //left
+			}
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                     CONSTRUCTORS                     */
@@ -170,6 +233,8 @@ namespace ft
 			{
 				nodePtr tmp = this->_root;
 				
+				if (!tmp)
+					return (nullptr);
 				if (!tmp->left)
 					return (tmp);
 				while (tmp->left)
@@ -183,11 +248,34 @@ namespace ft
 			{
 				nodePtr tmp = this->_root;
 				
+				if (!tmp)
+					return (nullptr);
 				if (!tmp->right)
 					return (tmp);
 				while (tmp->right)
 				{
 					tmp = tmp->right;
+				}
+				return (tmp);
+			}
+
+			nodePtr	search(const key_type& k)
+			{
+				nodePtr tmp = this->_root;
+				
+				if (!tmp)
+					return (nullptr);
+		
+				while (tmp) 
+				{
+					if (this->_comp(tmp->data->first, k) && tmp->right)
+						tmp = tmp->right;
+					else if (this->_comp(k, tmp->data->first) && tmp->left)
+						tmp = tmp->left;
+					else if (this->_comp(k, tmp->data->first) == false && this->_comp(tmp->data->first, k) == false)
+						break;
+					else
+						tmp = nullptr;
 				}
 				return (tmp);
 			}
@@ -233,7 +321,7 @@ namespace ft
 			/*                                                      */
 			/* ---------------------------------------------------- */
 			// printTree(this->_root, nullptr, false, 0);
-			struct Trunk
+			/*struct Trunk
 			{
 				Trunk *prev;
 				std::string str;
@@ -284,7 +372,7 @@ namespace ft
 				}
 				trunk->str = "   |";
 				printTree(root->left, trunk, false, type);
-			}
+			}*/
 		
 		
 	};
