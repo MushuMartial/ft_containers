@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/21 15:46:56 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/22 12:10:43 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,34 +122,30 @@ namespace ft
 			//Begin
 			iterator begin()
 			{
-				iterator it; 
+				iterator it(this->_tree.begin()); 
 				
-				it._node = this->_tree.begin();
 				return it;
 			}
 			
 			const_iterator begin() const
 			{
-				const_iterator it; 
+				const_iterator it(this->_tree.begin()); 
 				
-				it._node = this->_tree.begin();
 				return it;
 			}
 
 			//End
 			iterator end()
 			{
-				iterator it; 
+				iterator it(this->_tree.end()); 
 				
-				it._node = this->_tree.end();
 				return it;
 			}
 			
 			const_iterator end() const
 			{
-				const_iterator it; 
+				const_iterator it(this->_tree.end()); 
 				
-				it._node = this->_tree.end();
 				return it;
 			}
 
@@ -168,9 +164,10 @@ namespace ft
 			size_type size() const
 			{
 				size_type ret = 0;
-				iterator it = this->begin();
+				iterator it(this->_tree.begin()); 
+				iterator end(this->_tree.end());
 				
-				while (it != this->end())
+				while (it != end)
 				{
 					it++;
 					ret++;
@@ -202,13 +199,13 @@ namespace ft
 			//Insert
 			pair<iterator,bool> insert (const value_type& val)
 			{
-				iterator it = this->find(val.first);
+				iterator it(this->find(val.first));
 				bool ret;
 				
 				if (!it._node || val.first != it->first)
 				{
 					this->_tree.insert(val);
-					iterator it = this->find(val.first);
+					iterator it(this->find(val.first));
 					ret = true;
 				}
 				else
@@ -332,29 +329,27 @@ namespace ft
 			//Find
 			iterator find (const key_type& k)
 			{
-				iterator it;
 				nodePtr tmp = this->_tree.search(k);
 
 				if (tmp)
 				{
-					it._node = tmp;
+					iterator it(tmp);
+					return it;
 				}
-				else
-				{
-					it = this->end();
-				}
+				iterator it(this->_tree.end());
 				return it;
 			}
 			
 			const_iterator find (const key_type& k) const
 			{
-				const_iterator it;
 				nodePtr tmp = this->_tree.search(k);
 
 				if (tmp)
-					it._node;
-				else
-					it = this->end();
+				{
+					const_iterator it(tmp);
+					return it;
+				}
+				const_iterator it(this->_tree.end());
 				return it;
 			}
 
@@ -371,8 +366,8 @@ namespace ft
 			//Lower Bound
 			iterator lower_bound (const key_type& k)
 			{
-				iterator it = this->begin();
-				iterator end = this->end();
+				iterator it(this->_tree.begin());
+				iterator end(this->_tree.end());
 
 				while (it != end)
 				{
@@ -385,8 +380,8 @@ namespace ft
 			
 			const_iterator lower_bound (const key_type& k) const
 			{
-				const_iterator it = this->begin();
-				const_iterator end = this->end();
+				const_iterator it(this->_tree.begin());
+				const_iterator end(this->_tree.end());
 
 				while (it != end)
 				{
@@ -400,8 +395,8 @@ namespace ft
 			//Upper Bound
 			iterator upper_bound (const key_type& k)
 			{
-				iterator it = this->begin();
-				iterator end = this->end();
+				iterator it(this->_tree.begin());
+				iterator end(this->_tree.end());
 
 				while (it != end)
 				{
@@ -414,8 +409,8 @@ namespace ft
 			
 			const_iterator upper_bound (const key_type& k) const
 			{
-				const_iterator it = this->begin();
-				const_iterator end = this->end();
+				const_iterator it(this->_tree.begin());
+				const_iterator end(this->_tree.end());
 
 				while (it != end)
 				{
@@ -429,12 +424,12 @@ namespace ft
 			//Equal Range
 			pair<const_iterator,const_iterator> equal_range (const key_type& k) const
 			{
-				return (pair<iterator,iterator>(this->lower_bound(k), this->upper_bound(k)));
+				return (pair<const_iterator, const_iterator>(this->lower_bound(k), this->upper_bound(k)));
 			}
 			
 			pair<iterator,iterator>             equal_range (const key_type& k)
 			{
-				return (pair<const_iterator, const_iterator>(this->lower_bound(k), this->upper_bound(k)));
+				return (pair<iterator, iterator>(this->lower_bound(k), this->upper_bound(k)));
 			}
 
 	};

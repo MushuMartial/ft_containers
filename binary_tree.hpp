@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/21 15:34:42 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/22 12:14:29 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,12 +224,12 @@ namespace ft
 			/*                      FIND                            */
 			/*                                                      */
 			/* ---------------------------------------------------- */
-			nodePtr ret_root()
+			nodePtr ret_root() const
 			{
 				return (this->_root);
 			}
 			
-			nodePtr begin()
+			nodePtr begin() const //IF NOT HERE BUG
 			{
 				nodePtr tmp = this->_root;
 				
@@ -244,7 +244,7 @@ namespace ft
 				return (tmp);
 			}
 			
-			nodePtr end()
+			nodePtr end() const
 			{
 				nodePtr tmp = this->_root;
 				

@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:53:43 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/21 15:53:42 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/22 12:06:31 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ int		main(void)
 	first.insert(ft::pair<int, int>(3, 10));
 	first.insert(ft::pair<int, int>(4, 10));
 
-	first.size();
+	ft::map<int, int>::iterator it = first.begin();
+
+	size_t i = first.size();
 	
 
 }
