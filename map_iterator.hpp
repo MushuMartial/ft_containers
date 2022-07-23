@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:03 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/22 11:43:39 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/23 15:01:11 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ namespace	ft
 
 			// My Members Types
 			typedef node<typename T::first_type, typename T::second_type>* nodePtr;
+			//typedef node<typename remove_const<typename T::first_type>::type, typename T::second_type>* nodePtr;
 		
 			//Attributes
 			nodePtr	_node;
@@ -65,7 +66,7 @@ namespace	ft
 			/*                     CONSTRUCTORS                     */
 			/*                                                      */
 			/* ---------------------------------------------------- */
-			map_iterator() : _node()
+			map_iterator() : _node(nullptr)
 			{
 				
 			}
@@ -75,10 +76,17 @@ namespace	ft
 				
 			}
 
+
 			/*map_iterator(const map_iterator<typename remove_const<T>::type> & ref) : _node(ref._node)
 			{
 				
 			}*/
+			
+			map_iterator	&operator=(const map_iterator& ref)
+			{
+				this->_node = ref._node;
+				return (*this);
+			}
 
 			~map_iterator() {}
 			

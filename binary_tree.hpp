@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/22 12:14:29 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/23 14:38:24 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,7 @@ namespace ft
 				return true;
 			}
 
-			bool side(nodePtr src)
+			bool side(nodePtr src) const
 			{
 				
 				if (this->_comp(src->parent->data->first, src->data->first))
@@ -229,7 +229,7 @@ namespace ft
 				return (this->_root);
 			}
 			
-			nodePtr begin() const //IF NOT HERE BUG
+			nodePtr begin() const//IF NOT HERE BUG
 			{
 				nodePtr tmp = this->_root;
 				
@@ -259,7 +259,7 @@ namespace ft
 				return (tmp);
 			}
 
-			nodePtr	search(const key_type& k)
+			nodePtr	search(const key_type& k) const
 			{
 				nodePtr tmp = this->_root;
 				

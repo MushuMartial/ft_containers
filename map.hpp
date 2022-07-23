@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/22 12:10:43 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/23 14:24:21 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,7 @@ namespace ft
 			{
 				while (first != last)
 				{
+					//std::cout << "hello" << std::endl;
 					this->_tree.insert(*first);
 					first++;
 				}
@@ -149,6 +150,36 @@ namespace ft
 				return it;
 			}
 
+			//RBegin
+			reverse_iterator rbegin()
+			{
+				reverse_iterator it(this->_tree.begin()); 
+				
+				return it;
+			}
+			
+			const_reverse_iterator rbegin() const
+			{
+				const_reverse_iterator it(this->_tree.begin()); 
+				
+				return it;
+			}
+
+			//REnd
+			reverse_iterator rend()
+			{
+				reverse_iterator it(this->_tree.end()); 
+				
+				return it;
+			}
+			
+			const_reverse_iterator rend() const
+			{
+				const_reverse_iterator it(this->_tree.end()); 
+				
+				return it;
+			}
+
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                      CAPACITY                        */
@@ -163,9 +194,12 @@ namespace ft
 			//size
 			size_type size() const
 			{
-				size_type ret = 0;
+				size_type ret = 1;
 				iterator it(this->_tree.begin()); 
 				iterator end(this->_tree.end());
+				
+				if (!end._node)//ret 0 if empty
+					ret = 0;
 				
 				while (it != end)
 				{
@@ -218,7 +252,7 @@ namespace ft
 				(void)position;
 				ft::pair<iterator, bool> tmp  = this->insert(val);
 				
-				return (tmp->first);
+				return (tmp.first);
 			}
 			
 			template <class InputIterator>
@@ -358,7 +392,7 @@ namespace ft
 			{
 				size_type ret = 0;
 
-				if (this->search(k) == nullptr)
+				if (this->_tree.search(k) == nullptr)
 					return ret;
 				return (ret + 1);
 			}
