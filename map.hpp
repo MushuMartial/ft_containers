@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/23 14:24:21 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/24 17:16:58 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ namespace ft
 			{
 				while (first != last)
 				{
-					//std::cout << "hello" << std::endl;
 					this->_tree.insert(*first);
 					first++;
 				}
@@ -105,7 +104,7 @@ namespace ft
 			//Destructor
 			~map()
 			{
-				//this->_tree.printTree(this->_tree._root, nullptr, false, 0);
+				this->_tree.printTree(this->_tree._root, nullptr, false, 0);
 			}
 
 			//Operator =
@@ -114,6 +113,7 @@ namespace ft
 				this->_tree = x._tree;
 				this->_comp = x._comp;
 				this->_alloc = x._alloc;
+				return *this;
 			}
 			/* ---------------------------------------------------- */
 			/*                                                      */
@@ -222,7 +222,7 @@ namespace ft
 			/* ---------------------------------------------------- */
 			mapped_type& operator[] (const key_type& k)
 			{
-				return (*((this->insert(make_pair(k,mapped_type()))).first)).second;
+				return (*((this->insert(ft::make_pair(k,mapped_type()))).first)).second;
 			}
 			
 			/* ---------------------------------------------------- */
@@ -267,25 +267,26 @@ namespace ft
 			}
 
 			//Erase
-			void erase (iterator position)
+			void erase (iterator position) //TO FINISH
 			{
-				this->_tree.erase(*position);
+				this->_tree.erase((*position).first);
 			}
 			
-			size_type erase (const key_type& k) //remove worked = 1 else 0
+			size_type erase (const key_type& k) //remove worked = 1 else 0 //TO FINISH
 			{
-				(void)k;
 				size_type ret = 0;
-				return (0);
+					if (this->_tree.erase(k))
+						ret = 1;
+				return (ret);
 			}
 			
-			void erase (iterator first, iterator last)
+			void erase (iterator first, iterator last) //TO FINISH
 			{
-				while (first != last)
-				{
-					this->_tree.erase(*first);
-					first++;
-				}
+				// while (first != last)
+				// {
+				// 	this->_tree.erase(*first);
+				// 	first++;
+				// }
 				
 			}
 
@@ -306,7 +307,7 @@ namespace ft
 			}
 
 			//Clear
-			void clear()
+			void clear() //TO FINISH
 			{
 				
 			}
@@ -467,6 +468,50 @@ namespace ft
 			}
 
 	};
+	
+	/* ---------------------------------------------------- */
+	/*                                                      */
+	/*                     OPERATORS                        */
+	/*                                                      */
+	/* ---------------------------------------------------- */
+	
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator==(const map<Key, T, Compare, Alloc>& x, const map<Key, T, Compare, Alloc>& y)
+	{
+		return x.size() == y.size() && ft::equal(x.begin(), x.end(), y.begin());
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator<(const map<Key, T, Compare, Alloc>& x, const map<Key, T, Compare, Alloc>& y)
+	{
+		return ft::lexicographical_compare(x.begin(), x.end(), y.begin(), y.end());
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator!=(const map<Key, T, Compare, Alloc>& x, const map<Key, T, Compare, Alloc>& y)
+	{
+		return !(x == y);
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator>(const map<Key, T, Compare, Alloc>& x, const map<Key, T, Compare, Alloc>& y)
+	{
+		return y < x;
+	}
+
+	template <class Key, class T, class Compare, class Alloc>
+	bool operator>=(const map<Key, T, Compare, Alloc>& x, const map<Key, T, Compare, Alloc>& y)
+	{
+		return !(x < y);
+	}
+
+	template <class _Key, class T, class Compare, class Alloc>
+	bool operator<=(const map<_Key, T, Compare, Alloc>& x, const map<_Key, T, Compare, Alloc>& y)
+	{
+		return !(y < x);
+	}
+
+
 }
 
 

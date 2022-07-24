@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:03 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/23 15:01:11 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/24 16:26:01 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ namespace	ft
 						break;
 					tmp = tmp->parent;
 					if (!tmp->parent) //node == biggest
-						tmp = nullptr;
+						break;
 				}
 				return tmp;
 			}
@@ -264,7 +264,7 @@ namespace	ft
 						break;
 					tmp = tmp->parent;
 					if (!tmp->parent) //node == smallest
-						tmp = nullptr;
+						break;
 				}
 				return tmp;
 			}

@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/23 14:38:24 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/24 17:29:14 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,59 +130,49 @@ namespace ft
 				}
 			}
 			
-			bool erase (const value_type& val)
-			{
-				(void)val;
-				//nodePtr tmp = this->search(val.first);
-				
-				// if (!this->_root || !tmp)
-				// 	return false;
-				
-				// if (tmp == this->_root)
-				// {
-				// 	this->_root = nullptr;
-				// 	return true;
-				// }
-
-				// side = this->side(); //false = right
-				// if (!tmp->left && !tmp->right) //leaf
-				// {
-				// 	if (!side)
-				// 		tmp->parent->right = nullptr;
-				// 	else
-				// 		tmp->parent->left = nullptr;
-				// 	return true;
-				// }
-
-				// if (!tmp->left || !tmp->right)
-				// {
-				// 	if (!tmp->left)
-				// 	{
-				// 		if (side == false)
-				// 		{
-				// 			tmp->parent->right = tmp;
-				// 		}
-				// 		else
-				// 		{
-							
-				// 		}
-				// 	}
-						
-				// }
-				// if (!tmp->left->right)
-				// {
-				// 	tmp 
-				// }
-				// if (!tmp->right->left)
-				// {
-					
-				// }
-				return true;
-			}
-
 			bool erase (const key_type& k)
 			{
-				(void)k;
+				nodePtr tmp = this->search(k);
+				
+				if (!this->_root || !tmp) //No Tree or k is not in tree
+				 	return false;
+				
+				if (tmp == this->_root && !tmp->left && !tmp->right) //erase root
+				{
+				 	this->_root = nullptr;
+				 	return true;
+				}
+
+				bool side = this->side(tmp); //false = right, true = left
+				if (!tmp->left && !tmp->right) //erase leaf
+				{
+					if (!side)
+						tmp->parent->right = nullptr;
+					else
+						tmp->parent->left = nullptr;
+					return true;
+				}
+
+				if (!tmp->left || !tmp->right)  //erase single node
+				{
+					if (!tmp->left)
+					{
+						if (!side)
+							tmp->parent->right = tmp->right;
+						else
+							tmp->parent->left = tmp->right;
+						tmp = nullptr;
+					}
+					else
+					{
+						if (!side)
+							tmp->parent->right = tmp->left;
+						else
+							tmp->parent->left = tmp->left;
+						tmp = nullptr;
+					}
+				}	
+				
 				return true;
 			}
 
@@ -321,7 +311,7 @@ namespace ft
 			/*                                                      */
 			/* ---------------------------------------------------- */
 			// printTree(this->_root, nullptr, false, 0);
-			/*struct Trunk
+			struct Trunk
 			{
 				Trunk *prev;
 				std::string str;
@@ -372,8 +362,8 @@ namespace ft
 				}
 				trunk->str = "   |";
 				printTree(root->left, trunk, false, type);
-			}*/
-		
+			}
+	
 		
 	};
 }
