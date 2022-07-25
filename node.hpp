@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 13:16:20 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/20 16:42:49 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/25 09:19:38 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,13 @@ namespace ft
 			//Destructor
 			~node()
 			{
-				
+				// std::allocator<pair<const Key,T> >	alloc;
+
+				// if (this->data)
+				// {
+				// 	alloc.destroy(this->data);
+				// 	alloc.deallocate(data, 1);
+				// }
 			}
 
 			

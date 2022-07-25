@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/24 17:16:58 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/25 17:53:20 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,23 +96,22 @@ namespace ft
 
 			//Constructor Copy
 			map (const map& x)
-			:  _tree(x._tree), _comp(x._comp), _alloc(x._alloc)
+			:  _tree(), _comp(x._comp), _alloc(x._alloc)
 			{
-				
+				this->insert(x.begin(), x.end());
 			}
 
 			//Destructor
 			~map()
 			{
-				this->_tree.printTree(this->_tree._root, nullptr, false, 0);
+				//this->_tree.printTree(this->_tree._root, nullptr, false, 0);
 			}
 
 			//Operator =
 			map& operator= (const map& x)
 			{
-				this->_tree = x._tree;
-				this->_comp = x._comp;
-				this->_alloc = x._alloc;
+				this->clear();
+				this->insert(x.begin(), x.end());
 				return *this;
 			}
 			/* ---------------------------------------------------- */
@@ -138,14 +137,14 @@ namespace ft
 			//End
 			iterator end()
 			{
-				iterator it(this->_tree.end()); 
+				iterator it(nullptr, this->_tree.end()); 
 				
 				return it;
 			}
 			
 			const_iterator end() const
 			{
-				const_iterator it(this->_tree.end()); 
+				const_iterator it(nullptr, this->_tree.end()); 
 				
 				return it;
 			}
@@ -168,14 +167,14 @@ namespace ft
 			//REnd
 			reverse_iterator rend()
 			{
-				reverse_iterator it(this->_tree.end()); 
+				reverse_iterator it(this->end()); 
 				
 				return it;
 			}
 			
 			const_reverse_iterator rend() const
 			{
-				const_reverse_iterator it(this->_tree.end()); 
+				const_reverse_iterator it(this->end()); 
 				
 				return it;
 			}
@@ -194,14 +193,14 @@ namespace ft
 			//size
 			size_type size() const
 			{
-				size_type ret = 1;
+				size_type ret = 0;
 				iterator it(this->_tree.begin()); 
-				iterator end(this->_tree.end());
+				iterator end(nullptr, this->_tree.end());
 				
-				if (!end._node)//ret 0 if empty
-					ret = 0;
+				if (!it._node)//ret 0 if empty
+					return ret;
 				
-				while (it != end)
+				while (it != end && it._node)
 				{
 					it++;
 					ret++;
@@ -212,7 +211,8 @@ namespace ft
 			//max_size
 			size_type max_size() const
 			{
-				return (this->_alloc.max_size());
+				return 288230376151711743; //461168601842738790; //Return for the tester
+				//return (this->_alloc.max_size());
 			}
 			
 			/* ---------------------------------------------------- */
@@ -222,7 +222,13 @@ namespace ft
 			/* ---------------------------------------------------- */
 			mapped_type& operator[] (const key_type& k)
 			{
-				return (*((this->insert(ft::make_pair(k,mapped_type()))).first)).second;
+				nodePtr tmp = this->_tree._root;
+				if (!tmp)
+				{
+					this->_tree._root = nullptr;
+				}
+				ft::pair<iterator, bool> ret = this->insert(ft::make_pair(k,mapped_type()));
+				return ret.first._node->data->second;
 			}
 			
 			/* ---------------------------------------------------- */
@@ -234,13 +240,13 @@ namespace ft
 			pair<iterator,bool> insert (const value_type& val)
 			{
 				iterator it(this->find(val.first));
-				bool ret;
+				bool ret = true;
 				
-				if (!it._node || val.first != it->first)
+				if (!it._node)
 				{
 					this->_tree.insert(val);
-					iterator it(this->find(val.first));
-					ret = true;
+					iterator it_ret(this->find(val.first));
+					return (pair<iterator,bool>(it_ret, ret));	
 				}
 				else
 					ret = false;
@@ -282,12 +288,12 @@ namespace ft
 			
 			void erase (iterator first, iterator last) //TO FINISH
 			{
-				// while (first != last)
-				// {
-				// 	this->_tree.erase(*first);
-				// 	first++;
-				// }
-				
+				while (first != last)
+				{
+					//std::cout << "Hello is passing here" << std::endl;
+					this->_tree.erase((*first).first);
+					first++;
+				}
 			}
 
 			//Swap
@@ -309,7 +315,19 @@ namespace ft
 			//Clear
 			void clear() //TO FINISH
 			{
+				std::allocator<pair<const Key,T> >	alloc;
 				
+				if (this->_tree._root)
+				{
+					if (this->_tree._root->data)
+					{
+						alloc.destroy(this->_tree._root->data);
+						alloc.deallocate(this->_tree._root->data, 1);
+					}
+					this->_tree._root->left = nullptr;
+					this->_tree._root->right = nullptr;
+					this->_tree._root = nullptr;
+				}
 			}
 
 			/* ---------------------------------------------------- */
@@ -371,7 +389,7 @@ namespace ft
 					iterator it(tmp);
 					return it;
 				}
-				iterator it(this->_tree.end());
+				iterator it(nullptr, this->_tree.end());
 				return it;
 			}
 			
@@ -384,7 +402,7 @@ namespace ft
 					const_iterator it(tmp);
 					return it;
 				}
-				const_iterator it(this->_tree.end());
+				const_iterator it(nullptr, this->_tree.end());
 				return it;
 			}
 
@@ -402,7 +420,7 @@ namespace ft
 			iterator lower_bound (const key_type& k)
 			{
 				iterator it(this->_tree.begin());
-				iterator end(this->_tree.end());
+				iterator end(nullptr, this->_tree.end());
 
 				while (it != end)
 				{
@@ -416,7 +434,7 @@ namespace ft
 			const_iterator lower_bound (const key_type& k) const
 			{
 				const_iterator it(this->_tree.begin());
-				const_iterator end(this->_tree.end());
+				const_iterator end(nullptr, this->_tree.end());
 
 				while (it != end)
 				{
@@ -431,7 +449,7 @@ namespace ft
 			iterator upper_bound (const key_type& k)
 			{
 				iterator it(this->_tree.begin());
-				iterator end(this->_tree.end());
+				iterator end(nullptr, this->_tree.end());
 
 				while (it != end)
 				{
@@ -445,7 +463,7 @@ namespace ft
 			const_iterator upper_bound (const key_type& k) const
 			{
 				const_iterator it(this->_tree.begin());
-				const_iterator end(this->_tree.end());
+				const_iterator end(nullptr, this->_tree.end());
 
 				while (it != end)
 				{

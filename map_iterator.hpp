@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:03 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/24 16:26:01 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/25 17:06:54 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,31 +60,38 @@ namespace	ft
 		
 			//Attributes
 			nodePtr	_node;
+			nodePtr	_end;
 			
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                     CONSTRUCTORS                     */
 			/*                                                      */
 			/* ---------------------------------------------------- */
-			map_iterator() : _node(nullptr)
+			map_iterator() : _node(nullptr), _end(nullptr)
 			{
 				
 			}
 
-			map_iterator(nodePtr node) : _node(node)
+			map_iterator(nodePtr node) : _node(node), _end(nullptr)
+			{
+				
+			}
+
+			map_iterator(nodePtr node, nodePtr end) : _node(node), _end(end)
 			{
 				
 			}
 
 
-			/*map_iterator(const map_iterator<typename remove_const<T>::type> & ref) : _node(ref._node)
+			map_iterator(const map_iterator & ref) : _node(ref._node), _end(ref._end)
 			{
 				
-			}*/
+			}
 			
 			map_iterator	&operator=(const map_iterator& ref)
 			{
 				this->_node = ref._node;
+				this->_end	= ref._end;
 				return (*this);
 			}
 
@@ -104,6 +111,7 @@ namespace	ft
 				
 				else if (!this->_node->parent && !this->_node->right)//node == root && !right
 				{
+					this->_end = this->_node;
 					this->_node = nullptr;
 				}
 
@@ -123,27 +131,25 @@ namespace	ft
 			{
 				map_iterator tmp = *this;
 
-				++*this;
-				return tmp;
+				this->operator++();
+				return (tmp);
 			}
 
 			map_iterator&	operator--()
 			{
 				if (this->_node == nullptr)//iterator at end or empty 
 				{
-					return *this;
+					if (this->_end)
+						this->_node = this->_end;
 				}
-
 				else if (!this->_node->parent && !this->_node->left)//node == root && !left
 				{
 					this->_node = nullptr;
 				}
-
 				else if (this->_node->left)
 				{
 					this->_node = down_smallest_node();
 				}
-				
 				else
 				{
 					this->_node = up_smallest_node();
@@ -212,13 +218,30 @@ namespace	ft
 				}
 				return (tmp);
 			}
+			
+
+			//
+			nodePtr end()
+			{
+				nodePtr tmp = this->_root;
+				
+				if (!tmp)
+					return (nullptr);
+				if (!tmp->right)
+					return (tmp);
+				while (tmp->right)
+				{
+					tmp = tmp->right;
+				}
+				return (tmp);
+			}
 
 			//Return the node bigger than this->_node on the branch
 			nodePtr up_bigger_node()
 			{
 				nodePtr tmp = this->_node->parent;
-
-				if (!tmp->parent && tmp->right == this->_node)
+				
+				if (!tmp->parent && tmp->comp(tmp->data->first, this->_node->data->first))
 				{
 					tmp = nullptr;
 					return (tmp);
@@ -230,7 +253,7 @@ namespace	ft
 						break;
 					tmp = tmp->parent;
 					if (!tmp->parent) //node == biggest
-						break;
+						return nullptr;
 				}
 				return tmp;
 			}
@@ -252,7 +275,7 @@ namespace	ft
 			{
 				nodePtr tmp = this->_node->parent;
 
-				if (!tmp->parent && tmp->left == this->_node)
+				if (!tmp->parent && tmp->comp(this->_node->data->first, tmp->data->first))
 				{
 					tmp = nullptr;
 					return (tmp);
@@ -264,7 +287,7 @@ namespace	ft
 						break;
 					tmp = tmp->parent;
 					if (!tmp->parent) //node == smallest
-						break;
+						return nullptr;
 				}
 				return tmp;
 			}

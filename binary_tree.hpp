@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/24 17:29:14 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/25 17:38:41 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ namespace ft
 			typedef	typename allocator_type::const_reference	const_reference;
 			typedef	typename allocator_type::pointer			pointer;
 			typedef	typename allocator_type::const_pointer		const_pointer;
-			typedef	ft::map_iterator<pair<const Key, T> >		iterator;
-			typedef	ft::map_iterator<const pair<const Key, T> >	const_iterator;
-			typedef	ft::reverse_iterator<iterator> 				reverse_iterator;
-			typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
+			//typedef	ft::map_iterator<pair<const Key, T> >		iterator;
+			//typedef	ft::map_iterator<const pair<const Key, T> >	const_iterator;
+			//typedef	ft::reverse_iterator<iterator> 				reverse_iterator;
+			//typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
 			typedef typename allocator_type::size_type			size_type;
 			
 			// My Members Types
@@ -89,6 +89,17 @@ namespace ft
 				node_ptr = alloc.allocate(1);
 				alloc.construct(node_ptr, node);
 				return (node_ptr);
+			}
+
+			nodePtr down_smallest_node(nodePtr src)
+			{
+				nodePtr tmp = src;
+
+				while (tmp->left)
+				{
+					tmp = tmp->left;
+				}
+				return tmp;
 			}
 			
 			//void insert (const value_type& val)
@@ -137,9 +148,30 @@ namespace ft
 				if (!this->_root || !tmp) //No Tree or k is not in tree
 				 	return false;
 				
-				if (tmp == this->_root && !tmp->left && !tmp->right) //erase root
+				if (tmp == this->_root) //erase root
 				{
-				 	this->_root = nullptr;
+					if (!tmp->left && !tmp->right)
+						this->_root = nullptr;
+					else if (!tmp->left)
+					{
+						tmp->right->parent = nullptr;
+						this->_root = tmp->right;
+					}
+					else if (!tmp->right)
+					{
+						tmp->left->parent = nullptr;
+						this->_root = tmp->left;
+					}
+					else
+					{
+						tmp->right->parent = nullptr;
+						tmp->left->parent = this->down_smallest_node(tmp->right); //DO NOT CHANGE ORDER
+						(this->down_smallest_node(tmp->right))->left = tmp->left;
+						//this->_root = tmp->right;
+						// _alloc.destroy(tmp->data);
+						// _alloc.deallocate(tmp->data, 1);
+						this->_root = tmp->right;
+					}
 				 	return true;
 				}
 
@@ -147,9 +179,12 @@ namespace ft
 				if (!tmp->left && !tmp->right) //erase leaf
 				{
 					if (!side)
+					{
 						tmp->parent->right = nullptr;
+					}
 					else
 						tmp->parent->left = nullptr;
+					tmp = nullptr;
 					return true;
 				}
 
@@ -158,27 +193,41 @@ namespace ft
 					if (!tmp->left)
 					{
 						if (!side)
+						{
+							tmp->right->parent = tmp->parent;
 							tmp->parent->right = tmp->right;
+						}
 						else
+						{
+							tmp->right = tmp->parent;
 							tmp->parent->left = tmp->right;
+						}
 						tmp = nullptr;
 					}
 					else
 					{
 						if (!side)
+						{
+							tmp->left = tmp->parent;
 							tmp->parent->right = tmp->left;
+						}
 						else
+						{
+							tmp->left = tmp->parent;
 							tmp->parent->left = tmp->left;
+						}
 						tmp = nullptr;
 					}
-				}	
+				}
+
+				
 				
 				return true;
 			}
 
 			bool side(nodePtr src) const
 			{
-				
+				//std::cout << "parent = " << src->parent->data->first << " src = " << src->data->first << std::endl;
 				if (this->_comp(src->parent->data->first, src->data->first))
 					return false; //right
 				return true; //left
