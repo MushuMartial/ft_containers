@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/25 17:38:41 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/26 15:48:38 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,19 +171,20 @@ namespace ft
 						// _alloc.destroy(tmp->data);
 						// _alloc.deallocate(tmp->data, 1);
 						this->_root = tmp->right;
+						tmp = nullptr;
 					}
 				 	return true;
 				}
 
-				bool side = this->side(tmp); //false = right, true = left
+				bool side = this->side(tmp, tmp->parent); //false = parent->left = tmp, true = parent->right = tmp; 
 				if (!tmp->left && !tmp->right) //erase leaf
 				{
 					if (!side)
 					{
-						tmp->parent->right = nullptr;
+						tmp->parent->left = nullptr;
 					}
 					else
-						tmp->parent->left = nullptr;
+						tmp->parent->right = nullptr;
 					tmp = nullptr;
 					return true;
 				}
@@ -192,45 +193,52 @@ namespace ft
 				{
 					if (!tmp->left)
 					{
-						if (!side)
+						if (!side)//false = parent->left = tmp
+						{
+							tmp->right->parent = tmp->parent;
+							tmp->parent->left = tmp->right;
+						}
+						else
+						{
+							tmp->left->parent = tmp->parent;
+							tmp->parent->left = tmp->left;
+						}
+						tmp = nullptr;
+					}
+					else
+					{
+						if (!side)//false = parent->left = tmp
 						{
 							tmp->right->parent = tmp->parent;
 							tmp->parent->right = tmp->right;
 						}
 						else
 						{
-							tmp->right = tmp->parent;
-							tmp->parent->left = tmp->right;
-						}
-						tmp = nullptr;
-					}
-					else
-					{
-						if (!side)
-						{
-							tmp->left = tmp->parent;
+							tmp->left->parent = tmp->parent;
 							tmp->parent->right = tmp->left;
-						}
-						else
-						{
-							tmp->left = tmp->parent;
-							tmp->parent->left = tmp->left;
 						}
 						tmp = nullptr;
 					}
 				}
-
-				
-				
+				else
+				{
+					tmp->right->parent = tmp->parent;
+					tmp->left->parent = this->down_smallest_node(tmp->right); //DO NOT CHANGE ORDER
+					(this->down_smallest_node(tmp->right))->left = tmp->left;
+					if (!side)//false = parent->left = tmp
+						tmp->parent->left = tmp->right;
+					else
+						tmp->parent->right = tmp->right;
+					return true;
+				}
 				return true;
 			}
 
-			bool side(nodePtr src) const
+			bool side(nodePtr child, nodePtr parent) const
 			{
-				//std::cout << "parent = " << src->parent->data->first << " src = " << src->data->first << std::endl;
-				if (this->_comp(src->parent->data->first, src->data->first))
-					return false; //right
-				return true; //left
+				if (parent->left == child)
+					return false; //left
+				return true; //right
 			}
 			/* ---------------------------------------------------- */
 			/*                                                      */
@@ -301,12 +309,16 @@ namespace ft
 			nodePtr	search(const key_type& k) const
 			{
 				nodePtr tmp = this->_root;
+				size_type i = 0;
 				
 				if (!tmp)
 					return (nullptr);
 		
 				while (tmp) 
 				{
+					if (i == 30)
+						break;
+					//std::cout << "Hello is passing here" << std::endl;
 					if (this->_comp(tmp->data->first, k) && tmp->right)
 						tmp = tmp->right;
 					else if (this->_comp(k, tmp->data->first) && tmp->left)
@@ -315,6 +327,7 @@ namespace ft
 						break;
 					else
 						tmp = nullptr;
+					i++;
 				}
 				return (tmp);
 			}

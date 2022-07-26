@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:03 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/25 17:06:54 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/26 11:38:04 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,20 @@ namespace	ft
 				
 			}
 
+			
+
 			map_iterator(nodePtr node, nodePtr end) : _node(node), _end(end)
 			{
 				
 			}
 
 
-			map_iterator(const map_iterator & ref) : _node(ref._node), _end(ref._end)
+			// map_iterator(const map_iterator & ref) : _node(ref._node), _end(ref._end)
+			// {
+				
+			// }
+
+			map_iterator(const map_iterator<typename remove_const<T>::type> & ref) : _node(ref._node), _end(ref._end)
 			{
 				
 			}
@@ -246,14 +253,16 @@ namespace	ft
 					tmp = nullptr;
 					return (tmp);
 				}
-					
+				
 				while (tmp->parent)
 				{
 					if (tmp->comp(this->_node->data->first, tmp->data->first))
 						break;
 					tmp = tmp->parent;
-					if (!tmp->parent) //node == biggest
+					if (!tmp->parent && tmp->comp(this->_node->data->first, tmp->data->first) == false) //NODE BIGEEST
+					{
 						return nullptr;
+					}
 				}
 				return tmp;
 			}
@@ -286,7 +295,7 @@ namespace	ft
 					if (tmp->comp(tmp->data->first, this->_node->data->first))
 						break;
 					tmp = tmp->parent;
-					if (!tmp->parent) //node == smallest
+					if (!tmp->parent && tmp->comp(this->_node->data->first, tmp->data->first) == true) //node == smallest
 						return nullptr;
 				}
 				return tmp;

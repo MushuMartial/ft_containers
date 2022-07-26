@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/25 17:53:20 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/26 15:39:40 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ namespace ft
 			//Destructor
 			~map()
 			{
-				//this->_tree.printTree(this->_tree._root, nullptr, false, 0);
+				this->_tree.printTree(this->_tree._root, nullptr, false, 0);
 			}
 
 			//Operator =
@@ -152,14 +152,14 @@ namespace ft
 			//RBegin
 			reverse_iterator rbegin()
 			{
-				reverse_iterator it(this->_tree.begin()); 
+				reverse_iterator it(this->end()); 
 				
 				return it;
 			}
 			
 			const_reverse_iterator rbegin() const
 			{
-				const_reverse_iterator it(this->_tree.begin()); 
+				const_reverse_iterator it(this->end()); 
 				
 				return it;
 			}
@@ -167,14 +167,14 @@ namespace ft
 			//REnd
 			reverse_iterator rend()
 			{
-				reverse_iterator it(this->end()); 
+				reverse_iterator it(this->begin()); 
 				
 				return it;
 			}
 			
 			const_reverse_iterator rend() const
 			{
-				const_reverse_iterator it(this->end()); 
+				const_reverse_iterator it(this->begin()); 
 				
 				return it;
 			}
@@ -290,7 +290,6 @@ namespace ft
 			{
 				while (first != last)
 				{
-					//std::cout << "Hello is passing here" << std::endl;
 					this->_tree.erase((*first).first);
 					first++;
 				}
