@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/26 15:48:38 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/27 16:41:17 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ namespace ft
 				
 				if (!this->_root || !tmp) //No Tree or k is not in tree
 				 	return false;
-				
+
 				if (tmp == this->_root) //erase root
 				{
 					if (!tmp->left && !tmp->right)
@@ -175,7 +175,7 @@ namespace ft
 					}
 				 	return true;
 				}
-
+				
 				bool side = this->side(tmp, tmp->parent); //false = parent->left = tmp, true = parent->right = tmp; 
 				if (!tmp->left && !tmp->right) //erase leaf
 				{
@@ -188,7 +188,7 @@ namespace ft
 					tmp = nullptr;
 					return true;
 				}
-
+			
 				if (!tmp->left || !tmp->right)  //erase single node
 				{
 					if (!tmp->left)
@@ -200,8 +200,8 @@ namespace ft
 						}
 						else
 						{
-							tmp->left->parent = tmp->parent;
-							tmp->parent->left = tmp->left;
+							tmp->right->parent = tmp->parent;
+							tmp->parent->right = tmp->right;
 						}
 						tmp = nullptr;
 					}
@@ -209,8 +209,8 @@ namespace ft
 					{
 						if (!side)//false = parent->left = tmp
 						{
-							tmp->right->parent = tmp->parent;
-							tmp->parent->right = tmp->right;
+							tmp->left->parent = tmp->parent;
+							tmp->parent->left = tmp->left;
 						}
 						else
 						{
@@ -219,6 +219,7 @@ namespace ft
 						}
 						tmp = nullptr;
 					}
+					return true;
 				}
 				else
 				{
@@ -231,7 +232,7 @@ namespace ft
 						tmp->parent->right = tmp->right;
 					return true;
 				}
-				return true;
+				return false;
 			}
 
 			bool side(nodePtr child, nodePtr parent) const
@@ -309,25 +310,22 @@ namespace ft
 			nodePtr	search(const key_type& k) const
 			{
 				nodePtr tmp = this->_root;
-				size_type i = 0;
 				
 				if (!tmp)
 					return (nullptr);
 		
 				while (tmp) 
 				{
-					if (i == 30)
-						break;
-					//std::cout << "Hello is passing here" << std::endl;
 					if (this->_comp(tmp->data->first, k) && tmp->right)
 						tmp = tmp->right;
 					else if (this->_comp(k, tmp->data->first) && tmp->left)
 						tmp = tmp->left;
 					else if (this->_comp(k, tmp->data->first) == false && this->_comp(tmp->data->first, k) == false)
+					{
 						break;
+					}
 					else
 						tmp = nullptr;
-					i++;
 				}
 				return (tmp);
 			}
