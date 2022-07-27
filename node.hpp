@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 13:16:20 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/25 09:19:38 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/27 20:31:27 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ namespace ft
 	{
 		public:
 			typedef	ft::pair<const Key, T>		value_type;
+			typedef	Compare						key_compare;
 		
 		public:
 			node*					parent;

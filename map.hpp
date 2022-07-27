@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/27 16:15:47 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/27 20:36:49 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ namespace ft
 
 			// My Members Types
 			typedef node<const Key, T>*								nodePtr;
-			typedef tree<const Key, T>								tree;
+			typedef tree<const Key, T, key_compare, allocator_type>								tree;
 			typedef std::allocator<node<key_type, mapped_type> > nodeAlloc;
 		
 		public:
@@ -104,7 +104,7 @@ namespace ft
 			//Destructor
 			~map()
 			{
-				//this->_tree.printTree(this->_tree._root, nullptr, false, 0);
+				this->_tree.printTree(this->_tree._root, nullptr, false, 0);
 			}
 
 			//Operator =
