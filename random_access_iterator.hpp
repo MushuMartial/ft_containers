@@ -6,13 +6,14 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:45:21 by tmartial          #+#    #+#             */
-/*   Updated: 2022/06/28 16:15:35 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/29 11:04:04 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RANDOM_ACCESS_ITERATOR_H
 # define RANDOM_ACCESS_ITERATOR_H
-# include "iterator_traits.hpp"
+
+# include "utils.hpp"
 
 namespace ft {
 
