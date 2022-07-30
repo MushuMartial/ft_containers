@@ -6,13 +6,14 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 15:45:21 by tmartial          #+#    #+#             */
-/*   Updated: 2022/06/28 16:15:35 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/30 13:55:46 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef RANDOM_ACCESS_ITERATOR_H
 # define RANDOM_ACCESS_ITERATOR_H
-# include "iterator_traits.hpp"
+
+# include "utils.hpp"
 
 namespace ft {
 
@@ -200,7 +201,6 @@ typename random_access_iterator<IteratorL>::difference_type operator-(random_acc
 	return (lhs.base() - rhs.base());
 }
 
-} // namespace
-
+}
 
 #endif

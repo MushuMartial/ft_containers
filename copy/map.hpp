@@ -6,25 +6,16 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/29 10:40:09 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/29 12:34:01 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_HPP
 # define MAP_HPP
 
-# include <iostream>
-# include <algorithm>
-# include <memory>
-# include <vector>
-# include <iterator>
-# include <map>
-# include "iterator_traits.hpp"
-# include "type_traits.hpp"
 # include "random_access_iterator.hpp"
 # include "reverse_iterator.hpp"
 # include "utils.hpp"
-# include "pair.hpp"
 # include "binary_tree.hpp"
 # include "map_iterator.hpp"
 
@@ -36,39 +27,32 @@ namespace ft
 	{
 		public:
 			// Members Types
-			typedef	Key											key_type;
-			typedef	T											mapped_type;
-			typedef	ft::pair<const key_type, mapped_type>		value_type;
-			typedef	Compare										key_compare;
-			typedef	Alloc										allocator_type;
-			typedef	typename allocator_type::reference			reference;
-			typedef	typename allocator_type::const_reference	const_reference;
-			typedef	typename allocator_type::pointer			pointer;
-			typedef	typename allocator_type::const_pointer		const_pointer;
-			typedef	ft::map_iterator<ft::pair<const Key, T> >	iterator;
-			typedef	ft::map_iterator<const pair<const Key, T> >	const_iterator;
-			typedef	ft::reverse_iterator<iterator> 				reverse_iterator;
-			typedef	ft::reverse_iterator<const_iterator>		const_reverse_iterator;
-			typedef typename allocator_type::size_type			size_type;
+			typedef	Key												key_type;
+			typedef	T												mapped_type;
+			typedef	ft::pair<const key_type, mapped_type>			value_type;
+			typedef	Compare											key_compare;
+			typedef	Alloc											allocator_type;
+			typedef	typename allocator_type::reference				reference;
+			typedef	typename allocator_type::const_reference		const_reference;
+			typedef	typename allocator_type::pointer				pointer;
+			typedef	typename allocator_type::const_pointer			const_pointer;
+			typedef	ft::map_iterator<ft::pair<const Key, T> >		iterator;
+			typedef	ft::map_iterator<const pair<const Key, T> >		const_iterator;
+			typedef	ft::reverse_iterator<iterator> 					reverse_iterator;
+			typedef	ft::reverse_iterator<const_iterator>			const_reverse_iterator;
+			typedef typename allocator_type::size_type				size_type;
 
 			// My Members Types
-			typedef node<const Key, T>*				nodePtr;
+			typedef node<const Key, T>*								nodePtr;
 			typedef tree<const Key, T, key_compare, allocator_type>	tree;
 			typedef std::allocator<node<key_type, mapped_type> >	nodeAlloc;
 		
-		public:
+		private:
 			tree	_tree;
 			Compare	_comp;
 			Alloc	_alloc;
 				
 		public:
-			/* ---------------------------------------------------- */
-			/*                                                      */
-			/*                     UTILS                            */
-			/*                                                      */
-			/* ---------------------------------------------------- */
-			
-			
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                     CONSTRUCTORS                     */
@@ -210,8 +194,8 @@ namespace ft
 			//max_size
 			size_type max_size() const
 			{
-				return 288230376151711743; //461168601842738790; //Return for the tester
-				//return (this->_alloc.max_size());
+				//return 288230376151711743; //461168601842738790; //Return for the tester
+				return (this->_alloc.max_size());
 			}
 			
 			/* ---------------------------------------------------- */

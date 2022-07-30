@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:54:04 by tmartial          #+#    #+#             */
-/*   Updated: 2022/07/05 13:30:50 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/29 12:36:00 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,6 @@
 # define VECTOR_HPP
 
 # include <iostream>
-# include <algorithm>
-# include <memory>
-# include <vector>
-# include <iterator>
-# include "iterator_traits.hpp"
-# include "type_traits.hpp"
 # include "random_access_iterator.hpp"
 # include "reverse_iterator.hpp"
 # include "utils.hpp"
@@ -61,8 +55,9 @@ namespace ft
 				this->_begin = this->_alloc.allocate(size * 2);
 				for (size_type i = 0; i < size; i++)
 					this->_alloc.construct(this->_begin + i, val);
+				if (size > this->_size)
+					this->_capacity = size * 2;
 				this->_size = size;
-				this->_capacity = size * 2;
 			}
 
 			/* Free & destroy vector */
@@ -520,6 +515,12 @@ namespace ft
 				for (size_type i = 0; i < this->_size; i++)
 					this->_alloc.destroy(this->_begin + i);
 				this->_size = 0;
+			}
+
+			//Get Alloc
+			allocator_type get_allocator() const
+			{
+				return (this->_alloc);
 			}
 	};
 	

@@ -6,14 +6,17 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/22 14:23:35 by tmartial          #+#    #+#             */
-/*   Updated: 2022/06/28 16:16:44 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/07/30 13:59:17 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef REVERSE_ITERATOR_HPP
 # define REVERSE_ITERATOR_HPP
 
-#include "iterator_traits.hpp"
+#include "utils.hpp"
+
+//Link: https://en.cppreference.com/w/cpp/iterator/reverse_iterator
+
 namespace ft {
 
 	template < typename Iterator >

@@ -1,0 +1,142 @@
+Containers
+    |
+    |------> VECTOR
+    |           |
+    |           |(MEMBERS FUNCTIONS)
+    |           |
+    |           |-----> CONSTRUCTOR                     =>      Construct the vector
+    |           |
+    |           |-----> DESTRUCTOR                      =>      Destruct the vector
+    |           |
+    |           |-----> OPERATOR =                      =>      Create with copy
+    |           |
+    |           |-----> ITERATORS
+    |           |           |-------> BEGIN             =>      return iterator to beginning
+    |           |           |-------> END               =>      return iterator to end
+    |           |           |-------> RBEGIN            =>      return reverse iterator to reverse beginning (end)
+    |           |           |-------> REND              =>      return reverse iterator to reverse end (beginning)
+    |           |           |-------> CBEGIN            =>      return const iterator to beginning
+    |           |           |-------> CEND              =>      return const iterator to end
+    |           |           |-------> CRBEGIN           =>      return const reverse iterator to reverse beginning (end)
+    |           |           |-------> CREND             =>      return const reverse iterator to reverse end (beginning)
+    |           |
+    |           |-----> CAPACITY
+    |           |           |-------> SIZE              =>      return size
+    |           |           |-------> MAX_SIZE          =>      return max size
+    |           |           |-------> RESIZE            =>      change size
+    |           |           |-------> CAPACITY          =>      return size of allocated storage capacity
+    |           |           |-------> EMPTY             =>      test whether vector is empty
+    |           |           |-------> RESERVE           =>      request a change capacity
+    |           |
+    |           |-----> ELEMENTS ACCESS
+    |           |           |-------> OPERATOR[]        =>      access element
+    |           |           |-------> AT                =>      access element
+    |           |           |-------> FRONT             =>      access first element
+    |           |           |-------> BACK              =>      access last element
+    |           |
+    |           |-----> MODIFIERS
+    |           |           |-------> ASSIGN            =>      assign vector content
+    |           |           |-------> PUSH_BACK         =>      add element at the end
+    |           |           |-------> POP_BACK          =>      delete last element
+    |           |           |-------> INSERT            =>      insert elements
+    |           |           |-------> ERASE             =>      erase elements
+    |           |           |-------> SWAP              =>      swap content
+    |           |           |-------> CLEAR             =>      clear content
+    |           |
+    |           |-----> ALLOCATOR
+    |           |           |-------> GET_ALLOCATOR     =>      get allocator
+    |           |
+    |           |(NON-MEMBERS FUNCTIONS)
+    |           |
+    |           |-----> RELATIONAL OPERATOR
+    |           |           |-------> == / != / < / <= / > / >=
+    |           |
+    |           |-----> SWAP                            =>      exchange contents of vectors
+    |
+    |------> MAP
+    |         |
+    |         |(MEMBERS FUNCTIONS)
+    |         |
+    |         |-----> CONSTRUCTOR                       =>      Construct the map
+    |         |
+    |         |-----> DESTRUCTOR                        =>      Destruct the map
+    |         |
+    |         |-----> OPERATOR=                         =>      Create with copy
+    |         |
+    |         |-----> ITERATORS
+    |         |           |-------> BEGIN               =>      return iterator to beginning
+    |         |           |-------> END                 =>      return iterator to end
+    |         |           |-------> RBEGIN              =>      return reverse iterator to reverse beginning (end)
+    |         |           |-------> REND                =>      return reverse iterator to reverse end (beginning)
+    |         |
+    |         |-----> CAPACITY
+    |         |           |-------> EMPTY               =>      test whether vector is empty
+    |         |           |-------> SIZE                =>      return size
+    |         |           |-------> MAX_SIZE            =>      return max size
+    |         |
+    |         |-----> ELEMENTS ACCESS
+    |         |           |-------> OPERATOR []         =>      access element
+    |         |
+    |         |-----> MODIFIERS
+    |         |           |-------> INSERT              =>      insert elements
+    |         |           |-------> ERASE               =>      erase elements
+    |         |           |-------> SWAP                =>      swap content
+    |         |           |-------> CLEAR               =>      clear content
+    |         |
+    |         |-----> OBSERVERS
+    |         |           |-------> KEY_COMP            =>      return key comparaison object
+    |         |           |-------> VALUE_COMP          =>      return value comparaison object
+    |         |
+    |         |-----> OPERATIONS
+    |         |           |-------> FIND                =>      get iterator to element
+    |         |           |-------> COUNT               =>      count elements with a specific key
+    |         |           |-------> LOWER_BOUND         =>      return iterator to lower bound
+    |         |           |-------> UPPER_BOUND         =>      return iterator to upper bound
+    |         |           |-------> EQUAL_RANGE         =>      get range of equal elements
+    |         |
+    |         |-----> ALLOCATOR
+    |                     |-------> GET_ALLOCATOR       =>      get allocator
+    |
+    |------> STACK
+    |          |
+    |          |(MEMBERS FUNCTIONS)
+    |          |
+    |          |-----> CONSTRUCTOR                      =>      Construct the map
+    |          |
+    |          |-----> EMPTY                            =>      Destruct the map
+    |          |
+    |          |-----> SIZE                             =>      return size
+    |          |
+    |          |-----> TOP                              =>      Access next element
+    |          |
+    |          |-----> PUSH                             =>      Insert element
+    |          |
+    |          |-----> POP                              =>      Remove top element
+    |          |
+    |          |(NON-MEMBERS FUNCTIONS)
+    |          |
+    |          |-----> RELATIONAL OPERATOR
+    |                      |-------> == / != / < / <= / > / >=
+    |
+    |------> PAIR
+    |          |
+    |          |-----> CONSTRUCTOR                      =>      Construct pair
+    |          |
+    |          |-----> OPERATOR=                        =>      Assign contents
+    |          |
+    |          |-----> MAKE PAIR                        =>      Construct pair object
+    |          |
+    |          |-----> RELATIONAL OPERATOR
+    |                     |-------> == / != / < / <= / > / >=
+    |
+    |------> ENABLE_IF                                  =>      block compilation if condition is false
+    |
+    |------> IS_INTEGRAL                                =>      check if type is integral
+    |
+    |------> EQUAL                                      =>      compare the elements in the range
+    |
+    |------> LEXICOGRAPHICAL_COMPARE                    =>      Compare each element from two stack at the same position
+    |
+    |------> ITERATORS_TRAITS
+    |
+    |------> REVERSE_ITERATOR
