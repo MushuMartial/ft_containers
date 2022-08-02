@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:54:04 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/01 15:46:45 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/02 15:54:10 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,14 +120,8 @@ namespace ft
 			//Operator =
 			vector& operator=(const vector& x)
 			{
-				this->_alloc = x._alloc;
-				this->_begin = x._begin;
-				this->_size = x._size;
-				this->_capacity = x._capacity;
-				
-				this->_begin = this->_alloc.allocate(_capacity, 0);
-				for (size_type i = 0; i < this->_size; i++)
-					this->_alloc.construct(this->_begin + i, *(x._begin + i));
+				if (this != &x)
+					this->assign(x.begin(), x.end());
 				return (*this);
 			}
 			

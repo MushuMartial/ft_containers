@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/01 15:46:01 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/02 17:16:14 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,12 @@ namespace ft
 			node*					right;
 			ft::pair<const Key, T>*	data;
 		
-			//Constructor Default
 			node() : parent(NULL), left(NULL), right(NULL), data(NULL)
 			{
 
 			}
 
-			node(const ft::pair<const Key, T>& val) : parent(NULL), left(NULL), right(NULL)
+			node(const ft::pair<const Key, T>& val) : parent(NULL), left(NULL), right(NULL), data(NULL)
 			{
 				std::allocator<ft::pair<const Key,T> >	alloc;
 
@@ -41,15 +40,15 @@ namespace ft
 				alloc.construct(this->data, val);
 			}
 			
-			//Destructor
 			~node()
 			{
 				std::allocator<pair<const Key,T> >	alloc;
-
+				
 				if (this->data)
 				{
 					alloc.destroy(this->data);
-					alloc.deallocate(data, 1);
+					alloc.deallocate(this->data, 1);
+				 	this->data = NULL;
 				}
 			}
 	};
@@ -72,7 +71,7 @@ namespace ft
 			
 			// My Members Types
 			typedef node<const Key, T> *								nodePtr;
-			typedef std::allocator<node<const key_type, mapped_type> > nodeAlloc;
+			typedef std::allocator<node<const key_type, mapped_type> >	nodeAlloc;
 		
 		public:
 			nodePtr		_root;
@@ -93,6 +92,7 @@ namespace ft
 			
 			~tree()
 			{
+				this->delete_tree(this->_root);
 				//this->printTree(this->_root, NULL, false, 0);
 			}
 		
@@ -101,39 +101,30 @@ namespace ft
 			/*                     UTILS                            */
 			/*                                                      */
 			/* ---------------------------------------------------- */
-			//Return a empty node NOT USED
-			nodePtr	new_node()
-			{
-				nodeAlloc	alloc;
-				nodePtr		node_ptr;
-				
-				node_ptr = alloc.allocate(1);
-				alloc.construct(node_ptr, node<const Key, T>());
-				return (node_ptr);
-			}
-
 			//New node with pair param
-			nodePtr	new_node(const ft::pair<const Key, T>& val)
+			nodePtr	new_node(const value_type& val)
 			{
 				nodeAlloc	alloc;
 				nodePtr		node_ptr;
-				ft::node<const Key, T>    node(val);
 				
 				node_ptr = alloc.allocate(1);
-				alloc.construct(node_ptr, node);
+				alloc.construct(node_ptr, val);
 				return (node_ptr);
 			}
-
-			//Return smallest node
-			nodePtr down_smallest_node(nodePtr src) const
+	
+			//Delete Tree
+			void delete_tree(nodePtr src)
 			{
-				nodePtr tmp = src;
-
-				while (tmp->left)
-					tmp = tmp->left;
-				return tmp;
+				std::allocator<node<const Key, T> >	alloca;
+				
+				if (src->left)
+					delete_tree(src->left);
+				else if (src->right)
+					delete_tree(src->right);
+				alloca.deallocate(src, 1);
 			}
 			
+			//Insert
 			void insert (const value_type& val)
 			{
 				if (!this->_root)
@@ -159,12 +150,12 @@ namespace ft
 						{
 							if (!tmp->left)
 							{
-								tmp->left = new_node(val);
-								tmp->left->parent = tmp;
+								this->_root->left = new_node(val);
+								this->_root->left->parent = this->_root;
 								break;
 							}
 							else
-							tmp = tmp->left;
+								tmp = tmp->left;
 						}
 					}
 				}
@@ -272,7 +263,8 @@ namespace ft
 			/* ---------------------------------------------------- */
 			nodePtr ret_root() const
 			{
-				return (this->_root);
+				nodePtr tmp = this->_root;
+				return (tmp);
 			}
 			
 			//Return Smallest Node
@@ -329,7 +321,15 @@ namespace ft
 				return (tmp);
 			}
 			
-			
+			//Return smallest node
+			nodePtr down_smallest_node(nodePtr src) const
+			{
+				nodePtr tmp = src;
+
+				while (tmp->left)
+					tmp = tmp->left;
+				return tmp;
+			}
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                     OBSERVERS                        */

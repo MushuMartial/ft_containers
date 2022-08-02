@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:03 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/01 15:46:13 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/02 15:51:29 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@ namespace	ft
 	template <class T>
 	class map_iterator
 	{
-		private:
-			
 		public:
 			// Members Types
 			typedef	typename T::first_type				key_type;
@@ -65,17 +63,10 @@ namespace	ft
 			}
 
 			
-
 			map_iterator(nodePtr node, nodePtr end) : _node(node), _end(end)
 			{
 				
 			}
-
-
-			// map_iterator(const map_iterator & ref) : _node(ref._node), _end(ref._end)
-			// {
-				
-			// }
 
 			map_iterator(const map_iterator<typename remove_const<T>::type> & ref) : _node(ref._node), _end(ref._end)
 			{
@@ -212,8 +203,6 @@ namespace	ft
 			}
 			
 
-		
-
 			//Return the node bigger than this->_node on the branch
 			nodePtr up_bigger_node(nodePtr node)
 			{
@@ -222,14 +211,10 @@ namespace	ft
 				{
 					next = node;
 					if (next->parent->right != next && next != next->parent->left)
-					{
 						return (NULL);
-					}
 					while (next->parent != NULL && next == next->parent->right)
 						next = next->parent;
-					
 					next = next->parent;
-					//std::cout << "Hello is passing here" << std::endl;
 				}
 				else
 				{
@@ -238,25 +223,6 @@ namespace	ft
 						next = next->left;
 				}
 				return (next);
-				// nodePtr tmp = this->_node->parent;
-				
-				// if (!tmp->parent && tmp->comp(tmp->data->first, this->_node->data->first))
-				// {
-				// 	tmp = NULL;
-				// 	return (tmp);
-				// }
-				
-				// while (tmp->parent)
-				// {
-				// 	if (tmp->comp(this->_node->data->first, tmp->data->first))
-				// 		break;
-				// 	tmp = tmp->parent;
-				// 	if (!tmp->parent && tmp->comp(this->_node->data->first, tmp->data->first) == false) //NODE BIGEEST
-				// 	{
-				// 		return NULL;
-				// 	}
-				// }
-				// return tmp;
 			}
 
 			//Return next smalles
@@ -290,23 +256,6 @@ namespace	ft
 						prev = prev->right;
 				}
 				return (prev);
-				// nodePtr tmp = this->_node->parent;
-
-				// if (!tmp->parent && tmp->comp(this->_node->data->first, tmp->data->first))
-				// {
-				// 	tmp = NULL;
-				// 	return (tmp);
-				// }
-				
-				// while (tmp->parent)
-				// {
-				// 	if (tmp->comp(tmp->data->first, this->_node->data->first))
-				// 		break;
-				// 	tmp = tmp->parent;
-				// 	if (!tmp->parent && tmp->comp(this->_node->data->first, tmp->data->first) == true) //node == smallest
-				// 		return NULL;
-				// }
-				// return tmp;
 			}
 
 			//Return next smalles

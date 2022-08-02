@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/01 15:49:44 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/02 17:17:01 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,7 @@ namespace ft
 			//Destructor
 			~map()
 			{
-				this->clear();
-				//this->_tree.printTree(this->_tree._root, NULL, false, 0);
+				//this->clear();
 			}
 
 			//Operator =
@@ -98,6 +97,12 @@ namespace ft
 				this->insert(x.begin(), x.end());
 				return *this;
 			}
+
+			//PRINT
+			// void printTree()
+			// {
+			// 	this->_tree.printTree(this->_tree._root, NULL, false, 0);
+			// }	
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                     ITERATORS                        */
@@ -195,7 +200,6 @@ namespace ft
 			//max_size
 			size_type max_size() const
 			{
-				//return 288230376151711743; //461168601842738790; //Return for the tester
 				return (this->_alloc.max_size());
 			}
 			
@@ -208,9 +212,7 @@ namespace ft
 			{
 				nodePtr tmp = this->_tree._root;
 				if (!tmp)
-				{
 					this->_tree._root = NULL;
-				}
 				ft::pair<iterator, bool> ret = this->insert(ft::make_pair(k,mapped_type()));
 				return ret.first._node->data->second;
 			}
@@ -253,7 +255,6 @@ namespace ft
 					this->insert(*first);
 					first++;
 				}
-				
 			}
 
 			//Erase
@@ -262,7 +263,7 @@ namespace ft
 				this->_tree.erase((*position).first);
 			}
 			
-			size_type erase (const key_type& k) //remove worked = 1 else 0 //TO FINISH
+			size_type erase (const key_type& k) //remove worked = 1 else 0
 			{
 				size_type ret = 0;
 					if (this->_tree.erase(k))
@@ -296,7 +297,7 @@ namespace ft
 			}
 
 			//Clear
-			void clear() //TO FINISH
+			void clear()
 			{
 				std::allocator<pair<const Key,T> >	alloc;
 				
@@ -311,6 +312,12 @@ namespace ft
 					this->_tree._root->right = NULL;
 					this->_tree._root = NULL;
 				}
+				// std::allocator<pair<const Key,T> >	alloc;
+				
+				// if (this->_tree._root)
+				// {
+				// 	this->_tree.delete_tree(this->_tree._root);
+				// }
 			}
 
 			/* ---------------------------------------------------- */
