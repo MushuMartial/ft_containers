@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/02 17:16:14 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/02 17:38:59 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ namespace ft
 
 				this->data = alloc.allocate(1);
 				alloc.construct(this->data, val);
+			}
+			
+			node (const node& x)
+			:  parent(x.parent), left(x.left), right(x.right), data(x.data)
+			{
+				
 			}
 			
 			~node()
@@ -133,6 +139,7 @@ namespace ft
 				{
 					nodePtr tmp = this->_root;
 					
+					
 					while (true)
 					{
 						if (this->_comp(tmp->data->first, val.first))
@@ -150,8 +157,8 @@ namespace ft
 						{
 							if (!tmp->left)
 							{
-								this->_root->left = new_node(val);
-								this->_root->left->parent = this->_root;
+								tmp->left = new_node(val);
+								tmp->left->parent = tmp;
 								break;
 							}
 							else
@@ -370,58 +377,58 @@ namespace ft
 			/*                                                      */
 			/* ---------------------------------------------------- */
 			// printTree(this->_root, NULL, false, 0);
-			// struct Trunk
-			// {
-			// 	Trunk *prev;
-			// 	std::string str;
+			struct Trunk
+			{
+				Trunk *prev;
+				std::string str;
 
-			// 	Trunk(Trunk *prev, std::string str)
-			// 	{
-			// 		this->prev = prev;
-			// 		this->str = str;
-			// 	}
-			// };
+				Trunk(Trunk *prev, std::string str)
+				{
+					this->prev = prev;
+					this->str = str;
+				}
+			};
 
-			// void showTrunks(Trunk *p)
-			// {
-			// 	if (p == NULL) {
-			// 		return;
-			// 	}
+			void showTrunks(Trunk *p)
+			{
+				if (p == NULL) {
+					return;
+				}
 
-			// 	showTrunks(p->prev);
-			// 	std::cout << p->str;
-			// }
+				showTrunks(p->prev);
+				std::cout << p->str;
+			}
 
-			// void printTree(node<const Key, T>* root, Trunk *prev, bool isLeft, bool type)
-			// {
-			// 	if (root == NULL) {
-			// 		return;
-			// 	}
+			void printTree(node<const Key, T>* root, Trunk *prev, bool isLeft, bool type)
+			{
+				if (root == NULL) {
+					return;
+				}
 
-			// 	std::string prev_str = "    ";
-			// 	Trunk *trunk = new Trunk(prev, prev_str);
+				std::string prev_str = "    ";
+				Trunk *trunk = new Trunk(prev, prev_str);
 
-			// 	printTree(root->right, trunk, true, type);
-			// 	if (!prev) {
-			// 		trunk->str = "———";
-			// 	}
-			// 	else if (isLeft)
-			// 	{
-			// 		trunk->str = "/———";
-			// 		prev_str = "   |";
-			// 	}
-			// 	else {
-			// 		trunk->str = "\\———";
-			// 		prev->str = prev_str;
-			// 	}
-			// 	showTrunks(trunk);
-			// 	std::cout << " " << root->data->first << "( ): " << root->data->second << std::endl;
-			// 	if (prev) {
-			// 		prev->str = prev_str;
-			// 	}
-			// 	trunk->str = "   |";
-			// 	printTree(root->left, trunk, false, type);
-			// }
+				printTree(root->right, trunk, true, type);
+				if (!prev) {
+					trunk->str = "———";
+				}
+				else if (isLeft)
+				{
+					trunk->str = "/———";
+					prev_str = "   |";
+				}
+				else {
+					trunk->str = "\\———";
+					prev->str = prev_str;
+				}
+				showTrunks(trunk);
+				std::cout << " " << root->data->first << "( ): " << root->data->second << std::endl;
+				if (prev) {
+					prev->str = prev_str;
+				}
+				trunk->str = "   |";
+				printTree(root->left, trunk, false, type);
+			}
 	};
 }
 

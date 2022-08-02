@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:53:43 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/02 17:01:04 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/02 17:34:44 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,33 @@ void print_time(time_t start)
 	std::cout << "Time = " << second - start << "ms" << std::endl;
 }
 
+#define T1 int
+#define T2 std::string
+
+struct ft_more {
+	bool	operator()(const T1 &first, const T1 &second) const {
+		return (first > second);
+	}
+};
+
+typedef ft::map<T1, T2, ft_more> ft_mp;
+typedef ft::map<T1, T2, ft_more>::iterator ft_mp_it;
+
 int		main(void)
 {
-	ft::map<int, int> map;
+	ft_mp mp;
+
+	mp[42] = "fgzgxfn";
+	mp[25] = "funny";
+	mp[80] = "hey";
+	mp[12] = "no";
+	mp[27] = "bee";
+	// mp[90] = "8";
 	
-	map.insert(ft::pair<int, int> (3, 10));
-	map.insert(ft::pair<int, int> (2, 10));
-	//map.insert(ft::pair<int, int> (4, 10));
-	map.printTree();
+	mp.PrintTree();
+
 	return (0);
 }
-
 
 // int main()
 // {

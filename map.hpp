@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/02 17:17:01 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/02 17:34:15 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,10 @@ namespace ft
 			}
 
 			//PRINT
-			// void printTree()
-			// {
-			// 	this->_tree.printTree(this->_tree._root, NULL, false, 0);
-			// }	
+			void PrintTree()
+			{
+				this->_tree.printTree(this->_tree._root, NULL, false, 0);
+			}	
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                     ITERATORS                        */
