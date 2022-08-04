@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/04 14:50:40 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/04 15:08:17 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,11 @@ namespace ft
 				return *this;
 			}
 
-			//PRINT
-			void PrintTree()
-			{
-				this->_tree.printTree(this->_tree._root, NULL, false, 0);
-			}	
+			//DEBUG
+			// void PrintTree()
+			// {
+			// 	this->_tree.printTree(this->_tree._root, NULL, false, 0);
+			// }	
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                     ITERATORS                        */
@@ -258,12 +258,12 @@ namespace ft
 			}
 
 			//Erase
-			void erase (iterator position) //TO FINISH
+			void erase (iterator position)
 			{
 				this->_tree.erase((*position).first);
 			}
 			
-			size_type erase (const key_type& k) //remove worked = 1 else 0
+			size_type erase (const key_type& k)
 			{
 				size_type ret = 0;
 					if (this->_tree.erase(k))
@@ -271,7 +271,7 @@ namespace ft
 				return (ret);
 			}
 			
-			void erase (iterator first, iterator last) //TO FINISH
+			void erase (iterator first, iterator last)
 			{
 				while (first != last)
 				{
@@ -299,20 +299,6 @@ namespace ft
 			//Clear
 			void clear()
 			{
-				// std::allocator<pair<const Key,T> >	alloc;
-				
-				// if (this->_tree._root)
-				// {
-				// 	if (this->_tree._root->data)
-				// 	{
-				// 		alloc.destroy(this->_tree._root->data);
-				// 		alloc.deallocate(this->_tree._root->data, 1);
-				// 	}
-				// 	this->_tree._root->left = NULL;
-				// 	this->_tree._root->right = NULL;
-				// 	this->_tree._root = NULL;
-				// }
-				
 				std::allocator<pair<const Key,T> >	alloc;
 				
 				if (this->_tree._root)
