@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/04 14:07:58 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/04 14:50:40 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -375,7 +375,7 @@ namespace ft
 			iterator find (const key_type& k)
 			{
 				nodePtr tmp = this->_tree.search(k);
-
+				
 				if (tmp)
 				{
 					iterator it(tmp);

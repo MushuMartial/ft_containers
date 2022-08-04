@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/04 14:33:34 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/04 14:51:28 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,6 @@ namespace ft
 				{
 					nodePtr tmp = this->_root;
 					
-					
 					while (true)
 					{
 						if (this->_comp(tmp->data->first, val.first))
@@ -184,7 +183,6 @@ namespace ft
 			bool erase (const key_type& k)
 			{
 				nodePtr tmp = this->search(k);
-				std::allocator<node<const Key, T> >	alloca;
 				
 				if (!this->_root || !tmp) //No Tree or k is not in tree
 				 	return false;
@@ -209,9 +207,9 @@ namespace ft
 						tmp->left->parent = this->down_smallest_node(tmp->right); //DO NOT CHANGE ORDER
 						(this->down_smallest_node(tmp->right))->left = tmp->left;
 						this->_root = tmp->right;
-						destroy_node(tmp);
 						tmp = NULL;
 					}
+					destroy_node(tmp);
 				 	return true;
 				}
 				
