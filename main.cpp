@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 15:53:43 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/02 17:34:44 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/04 12:02:48 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,30 +48,53 @@ void print_time(time_t start)
 }
 
 #define T1 int
-#define T2 std::string
+#define T2 int
+typedef ft::pair<const T1, T2> T3;
 
-struct ft_more {
-	bool	operator()(const T1 &first, const T1 &second) const {
-		return (first > second);
-	}
-};
+// int main(void)
+// {
+// 	ft::map<int, int> map;
+// 	//ft::map<int, int> map2;
 
-typedef ft::map<T1, T2, ft_more> ft_mp;
-typedef ft::map<T1, T2, ft_more>::iterator ft_mp_it;
+// 	map.insert(ft::pair<int, int> (10, 10));
+// 	map.insert(ft::pair<int, int> (1, 10));
+// 	map.insert(ft::pair<int, int> (100, 10));
+// 	ft::map<int, int> map2 = map;
+// 	map2.clear();
+	
+// }
 
 int		main(void)
 {
-	ft_mp mp;
+	std::list<T3> lst;
+	unsigned int lst_size = 7;
+	for (unsigned int i = 0; i < lst_size; ++i)
+		lst.push_back(T3(lst_size - i, i));
 
-	mp[42] = "fgzgxfn";
-	mp[25] = "funny";
-	mp[80] = "hey";
-	mp[12] = "no";
-	mp[27] = "bee";
-	// mp[90] = "8";
+	NAMESPACE::map<T1, T2> mp(lst.begin(), lst.end());
+	NAMESPACE::map<T1, T2>::iterator it = mp.begin(), ite = mp.end();
+
+	NAMESPACE::map<T1, T2> mp_range(it, --(--ite));
+	for (int i = 0; it != ite; ++it)
+		it->second = ++i * 5;
+
+	it = mp.begin(); ite = --(--mp.end());
+	NAMESPACE::map<T1, T2> mp_copy(mp);
+	for (int i = 0; it != ite; ++it)
+		it->second = ++i * 7;
+
+	std::cout << "\t-- PART ONE --" << std::endl;
+	// printSize(mp);
+	// printSize(mp_range);
+	// printSize(mp_copy);
 	
-	mp.PrintTree();
+	mp = mp_copy;
+	mp_copy = mp_range;
+	mp_range.clear();
 
+	// printSize(mp);
+	// printSize(mp_range);
+	// printSize(mp_copy);
 	return (0);
 }
 

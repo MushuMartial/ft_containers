@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/02 17:38:59 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/04 12:03:53 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ namespace ft
 			
 			~tree()
 			{
-				this->delete_tree(this->_root);
+				//this->delete_tree(this->_root);
 				//this->printTree(this->_root, NULL, false, 0);
 			}
 		
@@ -128,6 +128,7 @@ namespace ft
 				else if (src->right)
 					delete_tree(src->right);
 				alloca.deallocate(src, 1);
+				src = NULL;
 			}
 			
 			//Insert
@@ -313,7 +314,7 @@ namespace ft
 				
 				if (!tmp)
 					return (NULL);
-		
+
 				while (tmp) 
 				{
 					if (this->_comp(tmp->data->first, k) && tmp->right) //bigger

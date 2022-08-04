@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/02 17:34:15 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/04 12:04:09 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ namespace ft
 			//Destructor
 			~map()
 			{
-				//this->clear();
+				this->clear();
 			}
 
 			//Operator =
@@ -299,25 +299,27 @@ namespace ft
 			//Clear
 			void clear()
 			{
-				std::allocator<pair<const Key,T> >	alloc;
-				
-				if (this->_tree._root)
-				{
-					if (this->_tree._root->data)
-					{
-						alloc.destroy(this->_tree._root->data);
-						alloc.deallocate(this->_tree._root->data, 1);
-					}
-					this->_tree._root->left = NULL;
-					this->_tree._root->right = NULL;
-					this->_tree._root = NULL;
-				}
 				// std::allocator<pair<const Key,T> >	alloc;
 				
 				// if (this->_tree._root)
 				// {
-				// 	this->_tree.delete_tree(this->_tree._root);
+				// 	if (this->_tree._root->data)
+				// 	{
+				// 		alloc.destroy(this->_tree._root->data);
+				// 		alloc.deallocate(this->_tree._root->data, 1);
+				// 	}
+				// 	this->_tree._root->left = NULL;
+				// 	this->_tree._root->right = NULL;
+				// 	this->_tree._root = NULL;
 				// }
+				
+				std::allocator<pair<const Key,T> >	alloc;
+				
+				if (this->_tree._root)
+				{
+					this->_tree.delete_tree(this->_tree._root);
+					this->_tree._root = NULL;
+				}
 			}
 
 			/* ---------------------------------------------------- */
