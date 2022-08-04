@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:33 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/04 12:03:53 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/04 14:33:34 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # define BINARY_TREE_HPP
 
 # include "utils.hpp"
+
+int i = 0;
 
 namespace ft
 {
@@ -125,10 +127,19 @@ namespace ft
 				
 				if (src->left)
 					delete_tree(src->left);
-				else if (src->right)
+				if (src->right)
 					delete_tree(src->right);
+				alloca.destroy(src);
 				alloca.deallocate(src, 1);
 				src = NULL;
+			}
+			
+			//Destroy Node
+			void destroy_node(nodePtr src)
+			{
+				std::allocator<node<const Key, T> >	alloca;
+				alloca.destroy(src);
+				alloca.deallocate(src, 1);
 			}
 			
 			//Insert
@@ -173,6 +184,7 @@ namespace ft
 			bool erase (const key_type& k)
 			{
 				nodePtr tmp = this->search(k);
+				std::allocator<node<const Key, T> >	alloca;
 				
 				if (!this->_root || !tmp) //No Tree or k is not in tree
 				 	return false;
@@ -197,6 +209,7 @@ namespace ft
 						tmp->left->parent = this->down_smallest_node(tmp->right); //DO NOT CHANGE ORDER
 						(this->down_smallest_node(tmp->right))->left = tmp->left;
 						this->_root = tmp->right;
+						destroy_node(tmp);
 						tmp = NULL;
 					}
 				 	return true;
@@ -209,6 +222,7 @@ namespace ft
 						tmp->parent->left = NULL;
 					else
 						tmp->parent->right = NULL;
+					destroy_node(tmp);
 					tmp = NULL;
 					return true;
 				}
@@ -230,6 +244,7 @@ namespace ft
 						else
 							tmp->parent->right = tmp->left;
 					}
+					destroy_node(tmp);
 					return true;
 				}
 				else
@@ -241,6 +256,7 @@ namespace ft
 						tmp->parent->left = tmp->right;
 					else
 						tmp->parent->right = tmp->right;
+					destroy_node(tmp);
 					return true;
 				}
 				return false;
