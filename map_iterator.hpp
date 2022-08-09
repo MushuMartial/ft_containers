@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 11:52:03 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/02 15:51:29 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/09 17:45:22 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,13 @@ namespace	ft
 
 			// My Members Types
 			typedef node<typename T::first_type, typename T::second_type>* nodePtr;
-		
+
+		private:
 			//Attributes
 			nodePtr	_node;
 			nodePtr	_end;
-			
+		
+		public:
 			/* ---------------------------------------------------- */
 			/*                                                      */
 			/*                     CONSTRUCTORS                     */
@@ -190,6 +192,7 @@ namespace	ft
 			/*                     UTILS                            */
 			/*                                                      */
 			/* ---------------------------------------------------- */
+		private:
 			//Return root
 			nodePtr ret_root()
 			{

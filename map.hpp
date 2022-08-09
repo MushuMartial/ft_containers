@@ -6,7 +6,7 @@
 /*   By: tmartial <tmartial@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/29 18:08:23 by tmartial          #+#    #+#             */
-/*   Updated: 2022/08/04 15:08:17 by tmartial         ###   ########.fr       */
+/*   Updated: 2022/08/09 17:44:56 by tmartial         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,11 +185,8 @@ namespace ft
 				size_type ret = 0;
 				iterator it(this->_tree.begin()); 
 				iterator end(NULL, this->_tree.end());
-				
-				if (!it._node)//ret 0 if empty
-					return ret;
-				
-				while (it != end && it._node)
+					
+				while (it != end)
 				{
 					it++;
 					ret++;
@@ -214,7 +211,7 @@ namespace ft
 				if (!tmp)
 					this->_tree._root = NULL;
 				ft::pair<iterator, bool> ret = this->insert(ft::make_pair(k,mapped_type()));
-				return ret.first._node->data->second;
+				return ret.first->second;
 			}
 			
 			/* ---------------------------------------------------- */
@@ -228,7 +225,7 @@ namespace ft
 				iterator it(this->find(val.first));
 				bool ret = true;
 				
-				if (!it._node)
+				if (it == this->end())
 				{
 					this->_tree.insert(val);
 					iterator it_ret(this->find(val.first));
